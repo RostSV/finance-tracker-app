@@ -1,13 +1,11 @@
-package sk.posam.moneymate;
+package sk.rostsv.fsa.moneymate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MoneymateApplication {
-
+public class MoneyMateApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MoneymateApplication.class, args);
+        SpringApplication.run(MoneyMateApplication.class, args);
     }
-
 }
