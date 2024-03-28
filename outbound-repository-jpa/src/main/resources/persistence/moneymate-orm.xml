@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        https://jakarta.ee/xml/ns/persistence/orm
+        https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
+        version="3.0">
+
+        <!--User Entity-->
+        <entity class="sk.posam.fsa.moneymate.domain.User" access="FIELD">
+            <table name="user_system"/>
+            <attributes>
+                <id name="id">
+                    <generated-value strategy="IDENTITY"/>
+                </id>
+                <basic name="name"/>
+                <basic name="email">
+                    <column name="email" nullable="false"/>
+                </basic>
+                <basic name="password"/>
+            </attributes>
+        </entity>
+
+        <!--Account Entity-->
+        <entity class="sk.posam.fsa.moneymate.domain.Account" access="FIELD">
+            <table name="account"/>
+            <attributes>
+                <id name="id">
+                    <generated-value strategy="IDENTITY"/>
+                </id>
+                <basic name="name"/>
+                <basic name="description"/>
+                <basic name="balance"/>
+                <basic name="type">
+                    <column name="type" nullable="false"/>
+                    <convert converter="sk.posam.fsa.moneymate.jpa.converter.AccountTypeConverter"/>
+                </basic>
+
+                <many-to-one name="createdBy" fetch="EAGER" target-entity="sk.posam.fsa.moneymate.domain.User">
+                    <join-column name="user_id" nullable="false"/>
+                    <cascade>
+                        <cascade-all/>
+                    </cascade>
+                </many-to-one>
+
+                <many-to-one name="currency" target-entity="sk.posam.fsa.moneymate.domain.Currency">
+                    <join-column name="currency_id" nullable="false"/>
+                </many-to-one>
+
+            </attributes>
+        </entity>
+    
+        <!--Transaction Entity-->
+        <entity class="sk.posam.fsa.moneymate.domain.Transaction" access="FIELD">
+            <table name="transaction"/>
+            <attributes>
+                <id name="id">
+                    <generated-value strategy="IDENTITY"/>
+                </id>
+                <basic name="amount"/>
+
+                <basic name="category">
+                    <column name="category" nullable="false"/>
+                    <convert converter="sk.posam.fsa.moneymate.jpa.converter.CategoryConverter"/>
+                </basic>
+
+                <basic name="type">
+                    <column name="type" nullable="false"/>
+                    <convert converter="sk.posam.fsa.moneymate.jpa.converter.TransactionTypeConverter"/>
+                </basic>
+
+                <basic name="description"/>
+                <basic name="date"/>
+                <basic name="type">
+                    <column name="type" nullable="false"/>
+                    <convert converter="sk.posam.fsa.moneymate.jpa.converter.TransactionTypeConverter"/>
+                </basic>
+
+                <many-to-one name="accountId" fetch="EAGER" target-entity="sk.posam.fsa.moneymate.domain.Account">
+                    <join-column name="account_id" nullable="false"/>
+                    <cascade>
+                        <cascade-all/>
+                    </cascade>
+                </many-to-one>
+
+                <many-to-one name="currency" target-entity="sk.posam.fsa.moneymate.domain.Currency">
+                    <join-column name="currency_id" nullable="false"/>
+                </many-to-one>
+
+            </attributes>
+        </entity>
+
+        <!--Currency Entity-->
+        <entity class="sk.posam.fsa.moneymate.domain.Currency" access="FIELD">
+            <table name="currency"/>
+            <attributes>
+                <id name="id">
+                    <generated-value strategy="IDENTITY"/>
+                </id>
+                <basic name="code">
+                    <column name="code" nullable="false"/>
+                </basic>
+                <basic name="name"/>
+            </attributes>
+        </entity>
+
+
+</entity-mappings>
