@@ -8,7 +8,7 @@ info:
     email: rostyslav.svistula@gmail.com
 
 servers:
-  - url: http://localhost:8080/v1
+  - url: http://localhost:8081/v1
 
 paths:
   /accounts:
