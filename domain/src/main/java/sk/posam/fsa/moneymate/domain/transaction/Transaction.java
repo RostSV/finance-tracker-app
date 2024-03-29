@@ -1,13 +1,17 @@
-package sk.posam.fsa.moneymate.domain;
+package sk.posam.fsa.moneymate.domain.transaction;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sk.posam.fsa.moneymate.domain.Category;
+import sk.posam.fsa.moneymate.domain.Currency;
+import sk.posam.fsa.moneymate.domain.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,30 +19,30 @@ public class Transaction {
 
     private Long id;
     private LocalDateTime date;
-    private Long accountId;
-    private Category category;
     private BigDecimal amount;
     private String description;
+    private Category category;
     private TransactionType type;
     private Currency currency;
+    private Long accountId;
 
-
-    protected Transaction(Long accountId,
-                          Category category,
-                          BigDecimal amount,
-                          String description,
-                          TransactionType type){
-        this.accountId = Objects.requireNonNull(accountId, "Account ID cannot be null");
-        this.category = Objects.requireNonNull(category, "Category ID cannot be null");
-        this.description = description;
-        this.amount = Objects.requireNonNull(amount, "Amount cannot be null");
-        this.type = Objects.requireNonNull(type, "Type cannot be null");
+    public Transaction(BigDecimal amount,
+                       String description,
+                       Category category,
+                       TransactionType type,
+                       Currency currency,
+                       Long accountId) {
         this.date = LocalDateTime.now();
+        this.amount = amount;
+        this.description = description;
+        this.category = category;
+        this.type = type;
+        this.currency = currency;
+        this.accountId = accountId;
     }
 
-    public String getFormatDate(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        return date.format(formatter);
+    public String getFormatDate() {
+        return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
     @Override

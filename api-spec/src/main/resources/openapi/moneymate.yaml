@@ -346,6 +346,8 @@ components:
         - amount
         - description
         - type
+        - accountId
+        - currency
       properties:
         id:
           type: integer
@@ -364,6 +366,8 @@ components:
         description:
           type: string
           description: Description of the transaction.
+        currency:
+          $ref: '#/components/schemas/Currency'
         accountId:
           type: integer
           format: int64

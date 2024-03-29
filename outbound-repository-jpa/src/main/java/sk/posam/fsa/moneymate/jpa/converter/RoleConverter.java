@@ -7,11 +7,24 @@ public class RoleConverter implements AttributeConverter<UserRole, String> {
 
     @Override
     public String convertToDatabaseColumn(UserRole userRole) {
-        return null;
+
+        if (userRole == null) {
+            return null;
+        }
+        return userRole.name();
     }
 
     @Override
-    public UserRole convertToEntityAttribute(String s) {
-        return null;
+    public UserRole convertToEntityAttribute(String role) {
+
+        if (role == null) {
+            return null;
+        }
+
+        try {
+            return UserRole.valueOf(role);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid value of UserRole: " + role);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package sk.posam.fsa.moneymate.domain.repository;
 
-import sk.posam.fsa.moneymate.domain.Transaction;
+import sk.posam.fsa.moneymate.domain.transaction.Transaction;
+
 import java.util.Collection;
 
 /**

@@ -74,7 +74,7 @@
     </entity>
 
     <!--Transaction Entity-->
-    <entity class="sk.posam.fsa.moneymate.domain.Transaction" access="FIELD">
+    <entity class="sk.posam.fsa.moneymate.domain.transaction.Transaction" access="FIELD">
         <table name="transaction"/>
         <attributes>
             <id name="id">

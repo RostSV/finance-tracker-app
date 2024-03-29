@@ -8,11 +8,18 @@ import java.util.Collection;
 
 public interface AccountRepository {
 
+
     void create(Account account);
+
     void update(Account account);
+
     void delete(Long id);
 
+    Account findById(Long accountId);
+
     Collection<Account> findByUser(User user);
+
     Collection<Account> findByType(AccountType type);
+
     Collection<Account> findByCurrencyCode(String currencyCode);
 }
