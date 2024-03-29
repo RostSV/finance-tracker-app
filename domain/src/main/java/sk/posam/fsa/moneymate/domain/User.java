@@ -1,40 +1,32 @@
 package sk.posam.fsa.moneymate.domain;
+
 import lombok.*;
 
 import java.util.Objects;
+
 @Getter
 @Setter
 public class User {
 
     private Long id;
-    private String name;
     private String email;
-    private String password;
-//    private Categories categories;
-
+    private UserRole role;
+    private String firstName;
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
-
-        if (o instanceof User user) {
-            return Objects.equals(getId(), user.getId())
-                    && Objects.equals(getName(), user.getName())
-                    && Objects.equals(getEmail(), user.getEmail());
-        }
-        return false;
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(email, user.email) &&
+                role == user.role;
     }
 
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", email='" + email + '\'' +
-//                ", categories=" + categories +
-//                '}';
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, email, role);
+    }
+
+
 }

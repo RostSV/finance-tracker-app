@@ -1,12 +1,14 @@
 package sk.posam.fsa.moneymate.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class Currency {
 
     private Long id;
@@ -20,7 +22,7 @@ public class Currency {
         this.symbol = symbol;
     }
 
-    public Currency(String code, String symbol,String name) {
+    public Currency(String code, String symbol, String name) {
         this.name = Objects.requireNonNull(name, "Currency name cannot be null");
         this.code = Objects.requireNonNull(code, "Currency code cannot be null");
         this.symbol = symbol;

@@ -11,13 +11,14 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Category {
 
-    private long id;
+    private Long id;
     private String name;
+    private User assignedUser;
     private String description;
 
-    public Category(String name) {
-        this.name = Objects.requireNonNull(name, "name");
+    public Category(String name, User user) {
+        this.name = Objects.requireNonNull(name, "Category name cannot be null");
+        this.assignedUser = Objects.requireNonNull(user, "User cannot be null");
+
     }
-
-
 }

@@ -327,13 +327,16 @@ components:
         email:
           type: string
           description: Email address of the user.
-        profile:
-          $ref: '#/components/schemas/Profile'
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
-          description: List of categories associated with the user.
+        role:
+          $ref: '#/components/schemas/UserRole'
+        firstName:
+          type: string
+
+    UserRole:
+      type: string
+      enum:
+        - USER
+        - ADMIN
     
     
     Transaction:
@@ -410,20 +413,12 @@ components:
           type: string
         description:
           type: string
+        assignedUser:
+          type: integer
+          format: int64
+
       example:
         id: 1
         name: Shopping
         description: Kaufland
-    
-    
-    
-    Profile:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-        date:
-          type: string
-          description: Date and time when created
+
