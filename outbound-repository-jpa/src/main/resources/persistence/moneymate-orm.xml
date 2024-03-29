@@ -11,17 +11,22 @@
     <entity class="sk.posam.fsa.moneymate.domain.User" access="FIELD">
         <table name="user_system"/>
         <attributes>
+
             <id name="id">
                 <generated-value strategy="IDENTITY"/>
             </id>
+
             <basic name="firstName"/>
+
             <basic name="email">
                 <column name="email" nullable="false"/>
             </basic>
+
             <basic name="role">
                 <column name="role" nullable="false"/>
                 <convert converter="sk.posam.fsa.moneymate.jpa.converter.RoleConverter"/>
             </basic>
+
         </attributes>
     </entity>
 
@@ -30,17 +35,24 @@
     <entity class="sk.posam.fsa.moneymate.domain.Category" access="FIELD">
         <table name="category"/>
         <attributes>
+
             <id name="id">
                 <generated-value strategy="IDENTITY"/>
             </id>
-            <basic name="name"/>
+
+            <basic name="name">
+                <column name="name" nullable="false"/>
+            </basic>
+
             <basic name="description"/>
+
             <many-to-one name="assignedUser" target-entity="sk.posam.fsa.moneymate.domain.User">
                 <join-column name="user_id" nullable="false"/>
                 <cascade>
                     <cascade-all/>
                 </cascade>
             </many-to-one>
+
         </attributes>
     </entity>
 
@@ -48,12 +60,21 @@
     <entity class="sk.posam.fsa.moneymate.domain.Account" access="FIELD">
         <table name="account"/>
         <attributes>
+
             <id name="id">
                 <generated-value strategy="IDENTITY"/>
             </id>
-            <basic name="name"/>
+
+            <basic name="name">
+                <column name="name" nullable="false"/>
+            </basic>
+
             <basic name="description"/>
-            <basic name="balance"/>
+
+            <basic name="balance">
+                <column name="balance" nullable="false"/>
+            </basic>
+
             <basic name="type">
                 <column name="type" nullable="false"/>
                 <convert converter="sk.posam.fsa.moneymate.jpa.converter.AccountTypeConverter"/>
@@ -77,10 +98,14 @@
     <entity class="sk.posam.fsa.moneymate.domain.transaction.Transaction" access="FIELD">
         <table name="transaction"/>
         <attributes>
+
             <id name="id">
                 <generated-value strategy="IDENTITY"/>
             </id>
-            <basic name="amount"/>
+
+            <basic name="amount">
+                <column name="amount" nullable="false"/>
+            </basic>
 
             <basic name="type">
                 <column name="type" nullable="false"/>
@@ -88,10 +113,9 @@
             </basic>
 
             <basic name="description"/>
-            <basic name="date"/>
-            <basic name="type">
-                <column name="type" nullable="false"/>
-                <convert converter="sk.posam.fsa.moneymate.jpa.converter.TransactionTypeConverter"/>
+
+            <basic name="date">
+                <column name="date" nullable="false"/>
             </basic>
 
             <many-to-one name="accountId" fetch="EAGER" target-entity="sk.posam.fsa.moneymate.domain.Account">
@@ -116,13 +140,18 @@
     <entity class="sk.posam.fsa.moneymate.domain.Currency" access="FIELD">
         <table name="currency"/>
         <attributes>
+
             <id name="id">
                 <generated-value strategy="IDENTITY"/>
             </id>
+
             <basic name="code">
                 <column name="code" nullable="false"/>
             </basic>
+
             <basic name="name"/>
+
+            <basic name="sign"/>
         </attributes>
     </entity>
 

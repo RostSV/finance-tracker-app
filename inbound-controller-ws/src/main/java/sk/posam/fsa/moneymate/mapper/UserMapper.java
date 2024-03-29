@@ -21,7 +21,7 @@ public class UserMapper {
         return userDto;
     }
 
-    public User toUser(UserDto userDto) {
+    public User toUserEntity(UserDto userDto) {
         if (userDto == null)
             return null;
 

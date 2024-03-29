@@ -273,6 +273,7 @@ components:
         - balance
         - type
         - createdBy
+        - currency
       properties:
         id:
           type: integer
@@ -319,6 +320,9 @@ components:
     
     User:
       type: object
+      required:
+        - email
+        - role
       properties:
         id:
           type: integer
@@ -342,12 +346,12 @@ components:
     Transaction:
       type: object
       required:
-        - category
+        - date
         - amount
-        - description
+        - category
         - type
-        - accountId
         - currency
+        - accountId
       properties:
         id:
           type: integer
@@ -356,16 +360,16 @@ components:
         date:
           type: string
           description: Date when transaction was added.
-        type:
-          $ref: '#/components/schemas/TransactionType'
-        category:
-          $ref: '#/components/schemas/Category'
         amount:
           type: number
           description: Amount of the transaction.
         description:
           type: string
           description: Description of the transaction.
+        category:
+          $ref: '#/components/schemas/Category'
+        type:
+          $ref: '#/components/schemas/TransactionType'
         currency:
           $ref: '#/components/schemas/Currency'
         accountId:
@@ -375,10 +379,15 @@ components:
       example:
         id: 1
         date: "2024-03-24T19:01:30"
-        type: "EXPENSE"
-        category: "Shopping"
         amount: 50.25
         description: "Grocery in Kaufland"
+        category: "Shopping"
+        type: "EXPENSE"
+        currency: {
+          code: "USD",
+          sign: "$",
+          name: "US Dollar"
+        }
         accountId: 123
     
     TransactionType:
@@ -393,22 +402,26 @@ components:
       type: object
       required:
         - code
-        - name
       properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the Currency.
+        name:
+          type: string
+          description: Name of the Currency
         code:
           type: string
           description: Currency code by ISO 4217
         sign:
           type: string
           description: Currency sign(e.g. '$')
-        name:
-          type: string
-          description: Name of the Currency
-    
+
     Category:
       type: object
       required:
         - name
+        - assignedUser
       properties:
         id:
           type: integer
@@ -418,11 +431,13 @@ components:
         description:
           type: string
         assignedUser:
-          type: integer
-          format: int64
+          $ref: '#/components/schemas/User'
 
       example:
         id: 1
         name: Shopping
         description: Kaufland
+        assignedUser: {
+          id: 123,
+          email: example@gmail.com }
 
