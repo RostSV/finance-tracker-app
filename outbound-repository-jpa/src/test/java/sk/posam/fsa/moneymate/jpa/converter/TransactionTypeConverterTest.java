@@ -1,7 +1,7 @@
 package sk.posam.fsa.moneymate.jpa.converter;
 
 import org.junit.jupiter.api.Test;
-import sk.posam.fsa.moneymate.domain.TransactionType;
+import sk.posam.fsa.moneymate.domain.transaction.TransactionType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

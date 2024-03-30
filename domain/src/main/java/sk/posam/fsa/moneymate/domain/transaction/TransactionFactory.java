@@ -1,8 +1,9 @@
 package sk.posam.fsa.moneymate.domain.transaction;
 
+import sk.posam.fsa.moneymate.domain.Account;
 import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.Currency;
-import sk.posam.fsa.moneymate.domain.TransactionType;
+import sk.posam.fsa.moneymate.domain.exceptions.InvalidTransactionArgsException;
 import sk.posam.fsa.moneymate.domain.repository.AccountRepository;
 
 import java.math.BigDecimal;
@@ -19,36 +20,30 @@ public class TransactionFactory {
                                     String description,
                                     Category category,
                                     Currency currency,
-                                    Long accountId)
-            throws InvalidTransactionArgsException {
+                                    Account assignedTo) {
 
-        validateTransactionArgs(amount, description, category, currency, accountId);
-        return new Transaction(amount, description, category, TransactionType.INCOME, currency, accountId);
+        validateTransactionArgs(amount, category, currency, assignedTo);
+        return new Transaction(amount, description, category, TransactionType.INCOME, currency, assignedTo);
     }
 
     public Transaction createExpense(BigDecimal amount,
                                      String description,
                                      Category category,
                                      Currency currency,
-                                     Long accountId)
-            throws InvalidTransactionArgsException {
+                                     Account assignedTo) {
 
-        validateTransactionArgs(amount, description, category, currency, accountId);
-        return new Transaction(amount, description, category, TransactionType.EXPENSE, currency, accountId);
+        validateTransactionArgs(amount, category, currency, assignedTo);
+        return new Transaction(amount, description, category, TransactionType.EXPENSE, currency, assignedTo);
     }
 
     private void validateTransactionArgs(BigDecimal amount,
-                                         String description,
                                          Category category,
                                          Currency currency,
-                                         Long accountId) throws InvalidTransactionArgsException {
+                                         Account assignedTo) {
 
 
         if (amount == null || amount.doubleValue() <= 0) {
             throw new InvalidTransactionArgsException("Amount cannot be null or below zero");
-        }
-        if (description == null) {
-            throw new InvalidTransactionArgsException("Description cannot be null or empty");
         }
         if (category == null) {
             throw new InvalidTransactionArgsException("Category cannot be null");
@@ -56,10 +51,10 @@ public class TransactionFactory {
         if (currency == null) {
             throw new InvalidTransactionArgsException("Currency cannot be null or empty");
         }
-        if (accountId == null) {
-            throw new InvalidTransactionArgsException("Account ID cannot be null");
+        if (assignedTo == null) {
+            throw new InvalidTransactionArgsException("Account cannot be null");
         }
-        if (accountRepository.findById(accountId) == null) {
+        if (accountRepository.findById(assignedTo.getId()) == null) {
             throw new InvalidTransactionArgsException("Account not found");
         }
     }

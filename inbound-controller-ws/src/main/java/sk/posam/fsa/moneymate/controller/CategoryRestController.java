@@ -26,6 +26,7 @@ public class CategoryRestController implements CategoriesApi {
         this.categoryService = categoryService;
     }
 
+    //TODO check if my implementation of handling exception is good
     @Override
     public ResponseEntity<Void> createCategory(CategoryDto categoryDto) {
 
@@ -34,14 +35,27 @@ public class CategoryRestController implements CategoriesApi {
         Category category = categoryMapper.toEntity(categoryDto);
         category.setAssignedUser(user);
         categoryService.create(category);
-
         return ResponseEntity.ok().build();
 
     }
 
     @Override
     public ResponseEntity<List<CategoryDto>> listCategories() {
-        return ResponseEntity.ok().body(Collections.emptyList());
+        List<Category> allCategories = categoryService.findAll();
+        return allCategories != null ? ResponseEntity.ok().body(allCategories.stream().map(categoryMapper::toDto).toList())
+                : ResponseEntity.ok().body(Collections.emptyList());
+    }
+
+    @Override
+    public ResponseEntity<Void> updateCategory(CategoryDto categoryDto) {
+        categoryService.update(categoryMapper.toEntity(categoryDto));
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteCategory(Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 

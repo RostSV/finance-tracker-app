@@ -48,9 +48,6 @@
 
             <many-to-one name="assignedUser" target-entity="sk.posam.fsa.moneymate.domain.User">
                 <join-column name="user_id" nullable="false"/>
-                <cascade>
-                    <cascade-all/>
-                </cascade>
             </many-to-one>
 
         </attributes>
@@ -118,7 +115,7 @@
                 <column name="date" nullable="false"/>
             </basic>
 
-            <many-to-one name="accountId" fetch="EAGER" target-entity="sk.posam.fsa.moneymate.domain.Account">
+            <many-to-one name="assignedTo" fetch="EAGER" target-entity="sk.posam.fsa.moneymate.domain.Account">
                 <join-column name="account_id" nullable="false"/>
                 <cascade>
                     <cascade-all/>

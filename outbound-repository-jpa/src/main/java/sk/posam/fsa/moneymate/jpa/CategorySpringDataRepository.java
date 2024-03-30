@@ -6,4 +6,5 @@ import sk.posam.fsa.moneymate.domain.Category;
 
 @Repository
 public interface CategorySpringDataRepository extends JpaRepository<Category, Long> {
+    boolean existsByNameAndDescription(String name, String description);
 }

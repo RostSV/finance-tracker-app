@@ -1,87 +1,68 @@
 openapi: 3.0.0
+servers:
+  - url: http://localhost:8081/v1
+
 info:
   title: Money Mate
   version: 1.0.0
-  description: API for finance management system
+  description: API for finance management system based on OpenAPI 3.0 specification.
   contact:
-    name: API Support
+    name: the developer
     email: rostyslav.svistula@gmail.com
 
-servers:
-  - url: http://localhost:8081/v1
+tags:
+  - name: Account
+    description: Operations about account
+  - name: Transaction
+    description: Operations about transaction
+  - name: Category
+    description: Operations about category
 
 paths:
   /accounts:
     get:
-      summary: Return a list of all user's accounts
-      operationId: listAccounts
       tags:
         - Account
+      summary: Get all user's accounts
+      description: Returns a list that contains all user accounts
+      operationId: listAccounts
       responses:
         '200':
-          description: List of accounts
+          description: Successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Account'
-    
+
     post:
-      summary: Create a new account
-      operationId: createAccount
       tags:
         - Account
+      summary: Add a new finance account
+      description: Account object that need to be created and assigned to user
+      operationId: createAccount
+
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Account'
-      
+
       responses:
         '201':
-          description: Account was created succesfully
-        '400':
-          description: Inavlid input parameters
-        '409':
-          description: Account with the same name already exists
-  
-  /accounts/{id}:
-    delete:
-      summary: Delete an account by ID
-      operationId: deleteAccount
-      tags:
-        - Account
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-            description: Numeric id of user to delete
-      responses:
-        '204':
-          description: Account deleted successfully
+          description: Account was created successfully
         '400':
           description: Invalid input parameters
-        '404':
-          description: Account not found
-    
+        '409':
+          description: Account with the same name already exists
     put:
-      summary: Update an account by ID
-      operationId: updateAccount
       tags:
         - Account
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-            description: Numeric ID of the account to update
+      summary: Update an existing account
+      operationId: updateAccount
+
       requestBody:
         required: true
         content:
@@ -95,13 +76,38 @@ paths:
           description: Invalid input parameters
         '404':
           description: Account not found
-  
+
+  /accounts/{accountId}:
+    delete:
+      tags:
+        - Account
+      summary: Delete an account by ID
+      operationId: deleteAccount
+
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Numeric id of the account to delete
+      responses:
+        '204':
+          description: Account deleted successfully
+        '400':
+          description: Invalid input parameters
+        '404':
+          description: Account not found
+
   /accounts/transactions:
     get:
-      summary: Return a list of all user's transactions
-      operationId: listTransactions
       tags:
         - Transaction
+      summary: Get all user's transactions
+      description: Return all transactions from every account as list
+      operationId: listTransactions
+
       responses:
         '200':
           description: List of transactions
@@ -111,15 +117,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Transaction'
-  
-  /accounts/{id}/transactions:
+
+  /accounts/{accountId}/transactions:
     get:
-      summary: Return a list of all transactions by specific account
-      operationId: listTransactionsByAccount
       tags:
         - Transaction
+      summary: Get all transactions of account specified by ID
+      description: Return all transactions from the specific account as list
+      operationId: listTransactionsByAccount
+
       parameters:
-        - name: id
+        - name: accountId
           in: path
           required: true
           schema:
@@ -135,16 +143,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Transaction'
-    
-    
-    
+
+
+
     post:
-      summary: Add an transaction to specific account
-      operationId: addTransactions
       tags:
         - Transaction
+      summary: Add new transaction to specific account
+      description: Create transaction and assign it to the specific account
+      operationId: addTransaction
+
       parameters:
-        - name: id
+        - name: accountId
           in: path
           required: true
           schema:
@@ -162,56 +172,22 @@ paths:
           description: Transaction added succesfully
         '400':
           description: Invalid input
-  
-  /accounts/{id}/transactions/{tr_id}:
-    delete:
-      summary: Delete an account transaction by ID
-      operationId: deleteTransactionById
-      tags:
-        - Transaction
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-            description: Numeric id of the account
-        - name: tr_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-            description: Numeric id of the transaction
-      responses:
-        '204':
-          description: Transaction deleted successfully
-        '400':
-          description: Invalid input parameters
         '404':
-          description: Transaction not found
-    
+          description: Account not found
     put:
-      summary: Update an account by ID
-      operationId: updateTransaction
       tags:
         - Transaction
+      summary: Update an existing transaction of account specified by ID
+      operationId: updateTransaction
+
       parameters:
-        - name: id
+        - name: accountId
           in: path
           required: true
           schema:
             type: integer
             format: int64
-            description: Numeric id of the account
-        - name: tr_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-            description: Numeric id of the transaction
+            description: Numeric ID of the account
       requestBody:
         required: true
         content:
@@ -225,13 +201,45 @@ paths:
           description: Invalid input parameters
         '404':
           description: Transaction not found
-  
+
+  /accounts/{accountId}/transactions/{transactionId}:
+    delete:
+      tags:
+        - Transaction
+      summary: Delete transaction by ID
+      operationId: deleteTransactionById
+
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Numeric id of the account
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Numeric id of the transaction to delete
+      responses:
+        '204':
+          description: Transaction deleted successfully
+        '400':
+          description: Invalid input parameters
+        '404':
+          description: Transaction not found
+
+
   /categories:
     get:
-      summary: Return a list of user categories
-      operationId: listCategories
       tags:
         - Category
+      summary: Get categories specified by user
+      operationId: listCategories
+
       responses:
         '200':
           description: List of categories
@@ -241,7 +249,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Category'
-    
+
     post:
       summary: Create a new category
       operationId: createCategory
@@ -253,7 +261,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Category'
-      
+
       responses:
         '201':
           description: Category was created successfully
@@ -261,6 +269,49 @@ paths:
           description: Invalid input parameters
         '409':
           description: Category with the same name already exists
+    put:
+      tags:
+        - Category
+      summary: Update existing category
+      operationId: updateCategory
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: Category updated successfully
+        '400':
+          description: Invalid input parameters
+        '404':
+          description: Category not found
+
+
+  /categories/{categoryId}:
+    delete:
+      tags:
+        - Category
+      summary: Delete a category by ID
+      operationId: deleteCategory
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Numeric id of category to delete
+      responses:
+        '204':
+          description: Category deleted successfully
+        '400':
+          description: Invalid input parameters
+        '404':
+          description: Category not found
+
 
 
 
@@ -281,7 +332,7 @@ components:
           description: Unique identifier of the account.
         name:
           type: string
-          description: Name of the account.
+          description: Name of the account. e.g. "MyAccount"
         description:
           type: string
           description: Description of the account
@@ -290,34 +341,19 @@ components:
           description: Current balance of the account
         type:
           $ref: '#/components/schemas/AccountType'
-        createdBy:
-          $ref: '#/components/schemas/User'
         currency:
           $ref: '#/components/schemas/Currency'
-      example:
-        id: 5
-        name: My account
-        description: Just regular account
-        balance: 150
-        type: "PERSONAL"
-        createdBy: {
-          id: 123,
-          email: "user@example.com"
-        }
-        currency: {
-          code: "USD",
-          sign: "$",
-          name: "US Dollar"
-        }
-    
-    
+        createdBy:
+          $ref: '#/components/schemas/User'
+
+
     AccountType:
       type: string
       enum:
         - PERSONAL
         - SAVING
         - CUSTOM
-    
+
     User:
       type: object
       required:
@@ -341,8 +377,8 @@ components:
       enum:
         - USER
         - ADMIN
-    
-    
+
+
     Transaction:
       type: object
       required:
@@ -359,7 +395,7 @@ components:
           description: Unique identifier of the transaction.
         date:
           type: string
-          description: Date when transaction was added.
+          description: Date and time when transaction was added.
         amount:
           type: number
           description: Amount of the transaction.
@@ -372,32 +408,15 @@ components:
           $ref: '#/components/schemas/TransactionType'
         currency:
           $ref: '#/components/schemas/Currency'
-        accountId:
-          type: integer
-          format: int64
-          description: Id of account that belongs to
-      example:
-        id: 1
-        date: "2024-03-24T19:01:30"
-        amount: 50.25
-        description: "Grocery in Kaufland"
-        category: "Shopping"
-        type: "EXPENSE"
-        currency: {
-          code: "USD",
-          sign: "$",
-          name: "US Dollar"
-        }
-        accountId: 123
-    
+        assignedTo:
+          $ref: '#/components/schemas/Account'
+
     TransactionType:
       type: string
       enum:
         - INCOME
         - EXPENSE
-    
-    
-    
+
     Currency:
       type: object
       required:
@@ -428,16 +447,13 @@ components:
           format: int64
         name:
           type: string
+          description: Name og the category. e.g "Shopping"
         description:
           type: string
+          description: More specific of the category. e.g. "New clothes"
         assignedUser:
           $ref: '#/components/schemas/User'
 
-      example:
-        id: 1
-        name: Shopping
-        description: Kaufland
-        assignedUser: {
-          id: 123,
-          email: example@gmail.com }
+
+
 

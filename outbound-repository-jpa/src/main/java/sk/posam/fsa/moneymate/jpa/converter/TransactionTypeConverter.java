@@ -1,7 +1,7 @@
 package sk.posam.fsa.moneymate.jpa.converter;
 
 import jakarta.persistence.AttributeConverter;
-import sk.posam.fsa.moneymate.domain.TransactionType;
+import sk.posam.fsa.moneymate.domain.transaction.TransactionType;
 
 public class TransactionTypeConverter implements AttributeConverter<TransactionType, String> {
     @Override

@@ -13,8 +13,8 @@ public class Category {
 
     private Long id;
     private String name;
-    private User assignedUser;
     private String description;
+    private User assignedUser;
 
     public Category(String name, User user) {
         this.name = Objects.requireNonNull(name, "Category name cannot be null");

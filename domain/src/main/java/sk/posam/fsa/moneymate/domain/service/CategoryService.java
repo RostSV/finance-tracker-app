@@ -1,9 +1,11 @@
 package sk.posam.fsa.moneymate.domain.service;
 
 import sk.posam.fsa.moneymate.domain.Category;
+import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
+import sk.posam.fsa.moneymate.domain.exceptions.InstanceNotFoundException;
 import sk.posam.fsa.moneymate.domain.repository.CategoryRepository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 public class CategoryService implements CategoryFacade {
@@ -15,22 +17,59 @@ public class CategoryService implements CategoryFacade {
     }
 
     @Override
-    public void create(Category category) {
+    public void create(Category category) throws InstanceAlreadyExistsException {
+        // Validate category
         Objects.requireNonNull(category, "Category cannot be null");
         Objects.requireNonNull(category.getName(), "Category name cannot be null");
+
         if (category.getName().isEmpty()) {
             throw new IllegalArgumentException("Category name cannot be empty");
         }
+        // Check if category already exists
+        if (categoryRepository.exists(category.getName(), category.getDescription())) {
+            throw new InstanceAlreadyExistsException(
+                    "Category with name " + category.getName() +
+                            " and description " + category.getDescription() + " already exists");
+        }
+
         categoryRepository.create(category);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws InstanceNotFoundException {
+        categoryRepository.findById(id)
+                .orElseThrow(() -> new InstanceNotFoundException("Category with id " + id + " not found"));
+
         categoryRepository.delete(id);
     }
 
     @Override
-    public Collection<Category> findAll() {
-        return categoryRepository.findAll();
+    public void update(Category category) {
+        // Validate category
+        Objects.requireNonNull(category, "Category cannot be null");
+        Objects.requireNonNull(category.getName(), "Category name cannot be null");
+
+        if (category.getName().isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be empty");
+        }
+
+        if (category.getId() == null) {
+            throw new IllegalArgumentException("Category ID cannot be null");
+        }
+
+        Category existingCategory = categoryRepository.findById(category.getId())
+                .orElseThrow(() -> new InstanceNotFoundException("Category with id " + category.getId() + " not found"));
+
+        existingCategory.setName(category.getName());
+        existingCategory.setDescription(category.getDescription());
+
+        categoryRepository.update(existingCategory);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return categoryRepository.findAll()
+                .stream()
+                .toList();
     }
 }

@@ -5,6 +5,7 @@ import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.repository.CategoryRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class JpaCategoryRepositoryAdapter implements CategoryRepository {
@@ -30,4 +31,21 @@ public class JpaCategoryRepositoryAdapter implements CategoryRepository {
     public Collection<Category> findAll() {
         return categorySpringDataRepository.findAll();
     }
+
+    @Override
+    public Optional<Category> findById(Long id) {
+        return categorySpringDataRepository.findById(id);
+    }
+
+    @Override
+    public void update(Category category) {
+        categorySpringDataRepository.save(category);
+    }
+
+    @Override
+    public boolean exists(String name, String description) {
+        return categorySpringDataRepository.existsByNameAndDescription(name, description);
+    }
+
+
 }

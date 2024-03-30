@@ -14,11 +14,30 @@ public class CategoryMapper {
     }
 
     public Category toEntity(CategoryDto categoryDto) {
+
+        if (categoryDto == null) {
+            return null;
+        }
+
         Category entity = new Category();
         entity.setId(categoryDto.getId());
         entity.setName(categoryDto.getName());
         entity.setDescription(categoryDto.getDescription());
         entity.setAssignedUser(userMapper.toUserEntity(categoryDto.getAssignedUser()));
         return entity;
+    }
+
+    public CategoryDto toDto(Category category) {
+
+        if (category == null) {
+            return null;
+        }
+
+        CategoryDto dto = new CategoryDto();
+        dto.setId(category.getId());
+        dto.setName(category.getName());
+        dto.setDescription(category.getDescription());
+        dto.setAssignedUser(userMapper.toUserDto(category.getAssignedUser()));
+        return dto;
     }
 }
