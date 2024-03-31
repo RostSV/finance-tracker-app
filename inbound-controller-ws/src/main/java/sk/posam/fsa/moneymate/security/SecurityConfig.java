@@ -29,6 +29,8 @@ public class SecurityConfig {
     private void configureAuthorizationRules(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth
                 // Allow all requests
+                //.requestMatchers("/*").permitAll()
+                // Authenticate all requests
                 .anyRequest().authenticated();
 
     }
@@ -40,7 +42,6 @@ public class SecurityConfig {
                     jwt.jwtAuthenticationConverter(JwtConverter::new);
                 });
     }
-
 
 
 }

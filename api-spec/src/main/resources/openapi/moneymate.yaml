@@ -1,6 +1,7 @@
 openapi: 3.0.0
+
 servers:
-  - url: http://localhost:8081/v1
+  - url: http://localhost:8081/api/v1
 
 info:
   title: Money Mate
@@ -311,6 +312,46 @@ paths:
           description: Invalid input parameters
         '404':
           description: Category not found
+
+  /users:
+    post:
+      tags:
+        - User
+      summary: Add new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully.
+        '400':
+          description: Invalid input parameters
+        '409':
+          description: User with the same email already exists
+
+    get:
+      tags:
+        - User
+      summary: Get all users
+      description: Available only with ADMIN role.
+      operationId: listUsers
+
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '403':
+          description: Request denied. Lack of permission.
+
 
 
 

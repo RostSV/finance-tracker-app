@@ -1,4 +1,4 @@
-package sk.posam.fsa.moneymate.domain;
+package sk.posam.fsa.moneymate.domain.exceptions;
 
 public class MoneyMatePlatformException extends Exception {
 
