@@ -8,7 +8,6 @@ import sk.posam.fsa.moneymate.domain.Account;
 import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.Currency;
 import sk.posam.fsa.moneymate.domain.User;
-import sk.posam.fsa.moneymate.domain.exceptions.InvalidInstanceArgsException;
 import sk.posam.fsa.moneymate.domain.repository.AccountRepository;
 
 import java.math.BigDecimal;
@@ -56,56 +55,56 @@ class TransactionFactoryTest {
 
     @Test
     public void createIncomeWithNullAmountThrowsException() {
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createIncome(null, "Salary", category, currency, account));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createIncome(null, "Salary", category, currency, account));
     }
 
     @Test
     public void createExpenseWithNullAmountThrowsException() {
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createExpense(null, "Groceries", category, currency, account));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createExpense(null, "Groceries", category, currency, account));
     }
 
     @Test
     public void createIncomeWithInvalidAccountThrowsException() {
         when(accountRepository.findById(any())).thenReturn(null);
 
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createIncome(new BigDecimal("100.00"), "Salary", category, currency, new Account()));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createIncome(new BigDecimal("100.00"), "Salary", category, currency, new Account()));
     }
 
     @Test
     public void createExpenseWithInvalidAccountShouldThrowException() {
         when(accountRepository.findById(any())).thenReturn(null);
 
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createExpense(new BigDecimal("50.00"), "Groceries", category, currency, new Account()));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createExpense(new BigDecimal("50.00"), "Groceries", category, currency, new Account()));
     }
 
     @Test
     public void createIncomeWithNegativeAmountShouldThrowException() {
 
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createIncome(new BigDecimal("-100.00"), "Salary", category, currency, account));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createIncome(new BigDecimal("-100.00"), "Salary", category, currency, account));
     }
 
     @Test
     public void createIncomeWithZeroAmountShouldThrowException() {
 
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createIncome(new BigDecimal("0.00"), "Salary", category, currency, account));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createIncome(new BigDecimal("0.00"), "Salary", category, currency, account));
     }
 
     @Test
     public void createTransactionWithNullCategoryShouldThrowException() {
 
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createExpense(new BigDecimal("150.00"), "Groceries", null, currency, account));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createExpense(new BigDecimal("150.00"), "Groceries", null, currency, account));
     }
 
     @Test
     public void createTransactionWithNullCurrencyShouldThrowException() {
 
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createExpense(new BigDecimal("100.00"), "Groceries", category, null, account));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createExpense(new BigDecimal("100.00"), "Groceries", category, null, account));
     }
 
     @Test
     public void createTransactionWithNullAccountShouldThrowException() {
 
-        assertThrows(InvalidInstanceArgsException.class, () -> transactionFactory.createExpense(new BigDecimal("100.00"), "Groceries", category, currency, null));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createExpense(new BigDecimal("100.00"), "Groceries", category, currency, null));
     }
 
 

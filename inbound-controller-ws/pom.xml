@@ -40,33 +40,5 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <bannedDependencies>
-                                    <excludes>
-                                        <!-- Activate whitelisting of allowed submodules -->
-                                        <exclude>sk.posam.fsa.moneymate:*</exclude>
-                                    </excludes>
-                                    <includes>
-                                        <!-- Domain is obviously required -->
-                                        <include>sk.posam.fsa.moneymate:domain</include>
-                                        <include>sk.posam.fsa.moneymate:api-spec</include>
-                                    </includes>
-                                </bannedDependencies>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+
 </project>

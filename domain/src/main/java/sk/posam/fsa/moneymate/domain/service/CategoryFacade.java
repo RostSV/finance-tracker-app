@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface CategoryFacade {
 
-    void create(Category category) throws InstanceAlreadyExistsException;
+    void create(Category category);
 
 
-    void delete(Long id) throws InstanceNotFoundException;
+    void delete(Long id);
 
     void update(Category category);
 

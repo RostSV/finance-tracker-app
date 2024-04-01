@@ -3,7 +3,6 @@ package sk.posam.fsa.moneymate.domain.transaction;
 import sk.posam.fsa.moneymate.domain.Account;
 import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.Currency;
-import sk.posam.fsa.moneymate.domain.exceptions.InvalidInstanceArgsException;
 import sk.posam.fsa.moneymate.domain.repository.AccountRepository;
 
 import java.math.BigDecimal;
@@ -43,19 +42,19 @@ public class TransactionFactory {
 
 
         if (amount == null || amount.doubleValue() <= 0) {
-            throw new InvalidInstanceArgsException("Amount cannot be null or below zero");
+            throw new IllegalArgumentException("Amount cannot be null or below zero");
         }
         if (category == null) {
-            throw new InvalidInstanceArgsException("Category cannot be null");
+            throw new IllegalArgumentException("Category cannot be null");
         }
         if (currency == null) {
-            throw new InvalidInstanceArgsException("Currency cannot be null or empty");
+            throw new IllegalArgumentException("Currency cannot be null or empty");
         }
         if (assignedTo == null) {
-            throw new InvalidInstanceArgsException("Account cannot be null");
+            throw new IllegalArgumentException("Account cannot be null");
         }
         if (accountRepository.findById(assignedTo.getId()) == null) {
-            throw new InvalidInstanceArgsException("Account not found");
+            throw new IllegalArgumentException("Account not found");
         }
     }
 

@@ -17,7 +17,7 @@ public class CategoryService implements CategoryFacade {
     }
 
     @Override
-    public void create(Category category) throws InstanceAlreadyExistsException {
+    public void create(Category category) {
         // Validate category
         Objects.requireNonNull(category, "Category cannot be null");
         Objects.requireNonNull(category.getName(), "Category name cannot be null");
@@ -25,8 +25,12 @@ public class CategoryService implements CategoryFacade {
         if (category.getName().isEmpty()) {
             throw new IllegalArgumentException("Category name cannot be empty");
         }
+
+        if (category.getAssignedUser() == null) {
+            throw new NullPointerException("Category must have assigned user");
+        }
         // Check if category already exists
-        if (categoryRepository.exists(category.getName(), category.getDescription())) {
+        if (categoryRepository.exists(category)) {
             throw new InstanceAlreadyExistsException(
                     "Category with name " + category.getName() +
                             " and description " + category.getDescription() + " already exists");
@@ -36,7 +40,7 @@ public class CategoryService implements CategoryFacade {
     }
 
     @Override
-    public void delete(Long id) throws InstanceNotFoundException {
+    public void delete(Long id) {
         categoryRepository.findById(id)
                 .orElseThrow(() -> new InstanceNotFoundException("Category with id " + id + " not found"));
 

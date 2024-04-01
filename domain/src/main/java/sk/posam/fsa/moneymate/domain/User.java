@@ -6,12 +6,19 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
 
     private Long id;
     private String email;
     private UserRole role;
     private String firstName;
+
+    public User(String email, UserRole role, String firstName) {
+        this.email = email;
+        this.role = role;
+        this.firstName = firstName;
+    }
 
     @Override
     public boolean equals(Object o) {

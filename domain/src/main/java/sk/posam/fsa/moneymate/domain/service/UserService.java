@@ -2,7 +2,6 @@ package sk.posam.fsa.moneymate.domain.service;
 
 import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
-import sk.posam.fsa.moneymate.domain.exceptions.InvalidInstanceArgsException;
 import sk.posam.fsa.moneymate.domain.repository.UserRepository;
 
 public class UserService implements UserFacade {
@@ -19,7 +18,7 @@ public class UserService implements UserFacade {
         }
 
         if (user.getRole() == null || user.getEmail() == null)
-            throw new InvalidInstanceArgsException("User must have email and role");
+            throw new IllegalArgumentException("User must have email and role");
 
         userRepository.create(user);
     }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceNotFoundException;
-import sk.posam.fsa.moneymate.domain.exceptions.InvalidInstanceArgsException;
 
 import java.sql.Timestamp;
 
@@ -18,7 +17,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     //handler of invalid input and return http status 400(BAD_REQUEST)
-    @ExceptionHandler(value = {IllegalArgumentException.class, NullPointerException.class, InvalidInstanceArgsException.class})
+    @ExceptionHandler(value = {java.lang.IllegalArgumentException.class, NullPointerException.class, IllegalArgumentException.class})
     protected ResponseEntity<ErrorResponse> handleConflictInvalidInput(RuntimeException ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),

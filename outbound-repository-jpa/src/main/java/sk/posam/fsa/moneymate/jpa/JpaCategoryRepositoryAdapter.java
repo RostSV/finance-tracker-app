@@ -43,8 +43,10 @@ public class JpaCategoryRepositoryAdapter implements CategoryRepository {
     }
 
     @Override
-    public boolean exists(String name, String description) {
-        return categorySpringDataRepository.existsByNameAndDescription(name, description);
+    public boolean exists(Category category) {
+        return categorySpringDataRepository
+                .existsByNameAndDescriptionAndAssignedUser
+                        (category.getName(), category.getDescription(), category.getAssignedUser());
     }
 
 
