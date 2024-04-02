@@ -4,6 +4,8 @@ import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
 import sk.posam.fsa.moneymate.domain.repository.UserRepository;
 
+import java.util.List;
+
 public class UserService implements UserFacade {
     private final UserRepository userRepository;
 
@@ -16,7 +18,6 @@ public class UserService implements UserFacade {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new InstanceAlreadyExistsException("User with email " + user.getEmail() + " already exists");
         }
-
         if (user.getRole() == null || user.getEmail() == null)
             throw new IllegalArgumentException("User must have email and role");
 
@@ -32,4 +33,14 @@ public class UserService implements UserFacade {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .toList();
+    }
+
+
+    //TODO Implement email validation
 }

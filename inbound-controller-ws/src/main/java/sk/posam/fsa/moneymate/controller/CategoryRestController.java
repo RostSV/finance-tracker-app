@@ -42,7 +42,10 @@ public class CategoryRestController implements CategoriesApi {
     @Override
     public ResponseEntity<List<CategoryDto>> listCategories() {
         List<Category> allCategories = categoryService.findAll();
-        return allCategories != null ? ResponseEntity.ok().body(allCategories.stream().map(categoryMapper::toDto).toList())
+        return allCategories != null ? ResponseEntity.ok()
+                .body(allCategories.stream()
+                        .map(categoryMapper::toDto)
+                        .toList())
                 : ResponseEntity.ok().body(Collections.emptyList());
     }
 

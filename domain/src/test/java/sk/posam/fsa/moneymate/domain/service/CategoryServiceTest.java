@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Null;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.User;
@@ -15,7 +14,7 @@ import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceNotFoundException;
 import sk.posam.fsa.moneymate.domain.repository.CategoryRepository;
 
-import java.util.Objects;
+
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

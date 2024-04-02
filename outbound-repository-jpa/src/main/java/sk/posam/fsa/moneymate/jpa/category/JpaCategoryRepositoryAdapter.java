@@ -1,4 +1,4 @@
-package sk.posam.fsa.moneymate.jpa;
+package sk.posam.fsa.moneymate.jpa.category;
 
 import org.springframework.stereotype.Repository;
 import sk.posam.fsa.moneymate.domain.Category;

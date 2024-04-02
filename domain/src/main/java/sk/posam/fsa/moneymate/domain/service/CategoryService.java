@@ -41,6 +41,7 @@ public class CategoryService implements CategoryFacade {
 
     @Override
     public void delete(Long id) {
+        //check if category exists
         categoryRepository.findById(id)
                 .orElseThrow(() -> new InstanceNotFoundException("Category with id " + id + " not found"));
 
@@ -61,6 +62,7 @@ public class CategoryService implements CategoryFacade {
             throw new IllegalArgumentException("Category ID cannot be null");
         }
 
+        // Check if category already exists
         Category existingCategory = categoryRepository.findById(category.getId())
                 .orElseThrow(() -> new InstanceNotFoundException("Category with id " + category.getId() + " not found"));
 

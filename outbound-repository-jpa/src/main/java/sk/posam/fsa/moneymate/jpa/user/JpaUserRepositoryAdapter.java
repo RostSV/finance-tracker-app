@@ -1,8 +1,10 @@
-package sk.posam.fsa.moneymate.jpa;
+package sk.posam.fsa.moneymate.jpa.user;
 
 import org.springframework.stereotype.Repository;
 import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.repository.UserRepository;
+
+import java.util.Collection;
 
 @Repository
 public class JpaUserRepositoryAdapter implements UserRepository {
@@ -27,5 +29,10 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     public User findByEmail(String email) {
 
         return userSpringDataRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public Collection<User> findAll() {
+        return userSpringDataRepository.findAll();
     }
 }

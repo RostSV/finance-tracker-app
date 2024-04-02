@@ -2,6 +2,8 @@ package sk.posam.fsa.moneymate.domain.service;
 
 import sk.posam.fsa.moneymate.domain.User;
 
+import java.util.List;
+
 /**
  * UserFacade is an interface that defines the contract for user-related operations.
  * Implementations of this interface are expected to provide the functionality for these operations.
@@ -31,4 +33,6 @@ public interface UserFacade {
      * @return The User object if found, null otherwise.
      */
     User findByEmail(String email);
+
+    List<User> findAll();
 }

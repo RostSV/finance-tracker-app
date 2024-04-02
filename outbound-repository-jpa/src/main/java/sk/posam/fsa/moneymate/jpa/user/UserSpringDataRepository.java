@@ -1,4 +1,4 @@
-package sk.posam.fsa.moneymate.jpa;
+package sk.posam.fsa.moneymate.jpa.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import sk.posam.fsa.moneymate.domain.User;
