@@ -17,7 +17,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     //handler of invalid input and return http status 400(BAD_REQUEST)
-    @ExceptionHandler(value = {java.lang.IllegalArgumentException.class, NullPointerException.class, IllegalArgumentException.class})
+    @ExceptionHandler(value = {NullPointerException.class, IllegalArgumentException.class})
     protected ResponseEntity<ErrorResponse> handleConflictInvalidInput(RuntimeException ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
