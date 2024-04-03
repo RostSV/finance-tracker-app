@@ -60,7 +60,7 @@ class CategoryRestControllerTest {
         userDto = new UserDto("email@example.com", UserRoleDto.USER);
         categoryDto = new CategoryDto("Category", userDto);
         user = new User("email@example.com", UserRole.USER, "Mike");
-        category = new Category("Category", user);
+        category = new Category("Category", null, user);
 
         mockMvc = MockMvcBuilders.standaloneSetup(categoryRestController)
                 .setControllerAdvice(new GlobalRestExceptionHandler())

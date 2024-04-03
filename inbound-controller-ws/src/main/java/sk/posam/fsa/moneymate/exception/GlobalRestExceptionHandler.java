@@ -48,6 +48,8 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+
 }
 
 

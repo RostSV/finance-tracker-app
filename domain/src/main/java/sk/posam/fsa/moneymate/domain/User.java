@@ -1,12 +1,7 @@
 package sk.posam.fsa.moneymate.domain;
 
-import lombok.*;
-
 import java.util.Objects;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class User {
 
     private Long id;
@@ -14,9 +9,45 @@ public class User {
     private UserRole role;
     private String firstName;
 
+    //Empty constructor for JPA
+    public User() {
+    }
+
     public User(String email, UserRole role, String firstName) {
+        this.email = Objects.requireNonNull(email, "User email cannot be null");
+        this.role = Objects.requireNonNull(role, "User role cannot be null");
+        this.firstName = firstName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 

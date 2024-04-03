@@ -1,14 +1,8 @@
 package sk.posam.fsa.moneymate.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class Account {
 
     private Long id;
@@ -19,5 +13,46 @@ public class Account {
     private Currency currency;
     private User createdBy;
 
+    //Empty constructor for JPA
+    public Account() {
+    }
 
+    public Account(String name, String description, BigDecimal balance,
+                   AccountType type, Currency currency, User createdBy) {
+        this.name = Objects.requireNonNull(name, "Name of account cannot be null");
+        this.description = description;
+        this.balance = Objects.requireNonNull(balance, "Balance of account cannot be null");
+        this.type = Objects.requireNonNull(type, "Type of account cannot be null");
+        this.currency = Objects.requireNonNull(currency, "Currency of account cannot be null");
+        this.createdBy = Objects.requireNonNull(createdBy, "Creator of account cannot be null");
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public AccountType getType() {
+        return type;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
 }

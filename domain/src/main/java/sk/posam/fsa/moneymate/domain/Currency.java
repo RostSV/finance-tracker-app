@@ -1,24 +1,44 @@
 package sk.posam.fsa.moneymate.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.Objects;
 
-@Setter
-@Getter
-@NoArgsConstructor
 public class Currency {
 
     private Long id;
-    private String name;
     private String code;
+    private String name;
     private String sign;
+
+    //Empty constructor for JPA
+    public Currency() {
+    }
 
     public Currency(String code) {
         this.code = Objects.requireNonNull(code, "Currency code cannot be null");
     }
+
+    public Currency(String code, String name, String sign) {
+        this.code = Objects.requireNonNull(code, "Currency code cannot be null");
+        this.name = name;
+        this.sign = sign;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
 
     @Override
     public boolean equals(Object o) {

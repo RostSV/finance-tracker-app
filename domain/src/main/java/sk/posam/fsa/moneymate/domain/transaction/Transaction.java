@@ -1,8 +1,5 @@
 package sk.posam.fsa.moneymate.domain.transaction;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sk.posam.fsa.moneymate.domain.Account;
 import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.Currency;
@@ -10,9 +7,6 @@ import sk.posam.fsa.moneymate.domain.Currency;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class Transaction {
 
     private Long id;
@@ -24,12 +18,17 @@ public class Transaction {
     private Currency currency;
     private Account assignedTo;
 
-    public Transaction(BigDecimal amount,
-                       String description,
-                       Category category,
-                       TransactionType type,
-                       Currency currency,
-                       Account assignedTo) {
+    //Empty constructor for JPA
+    public Transaction() {
+    }
+
+    //Constructor for creating new transaction via factory method
+    protected Transaction(BigDecimal amount,
+                          String description,
+                          Category category,
+                          TransactionType type,
+                          Currency currency,
+                          Account assignedTo) {
         this.date = LocalDateTime.now();
         this.amount = amount;
         this.description = description;
@@ -39,5 +38,43 @@ public class Transaction {
         this.assignedTo = assignedTo;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public Account getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

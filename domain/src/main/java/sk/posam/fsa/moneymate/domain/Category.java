@@ -1,16 +1,7 @@
 package sk.posam.fsa.moneymate.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.Objects;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Category {
 
     private Long id;
@@ -18,15 +9,56 @@ public class Category {
     private String description;
     private User assignedUser;
 
-    public Category(String name, User user) {
+    //Empty constructor for JPA
+    public Category() {
+    }
+
+    public Category(String name, String description, User user) {
         this.name = Objects.requireNonNull(name, "Category name cannot be null");
-        this.assignedUser = Objects.requireNonNull(user, "User cannot be null");
+        this.description = description;
+        this.assignedUser = Objects.requireNonNull(user, "User cannot be null in category");
 
     }
 
-    public Category(String name, User user, String description) {
-        this.name = Objects.requireNonNull(name, "Category name cannot be null");
-        this.assignedUser = Objects.requireNonNull(user, "User cannot be null");
+    public Long getId() {
+        return id;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public User getAssignedUser() {
+        return assignedUser;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setAssignedUser(User assignedUser) {
+        this.assignedUser = assignedUser;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", assignedUser=" + assignedUser +
+                '}';
     }
 }

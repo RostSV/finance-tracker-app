@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.moneymate.domain.Category;
-import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.service.CategoryFacade;
 import sk.posam.fsa.moneymate.mapper.CategoryMapper;
 import sk.posam.fsa.moneymate.rest.api.CategoriesApi;
@@ -29,10 +28,8 @@ public class CategoryRestController implements CategoriesApi {
         this.categoryService = categoryService;
     }
 
-    //TODO check if my implementation of handling exception is good
     @Override
     public ResponseEntity<Void> createCategory(CategoryDto categoryDto) {
-
 
         Category category = categoryMapper.toEntity(categoryDto);
         category.setAssignedUser(currentUserDetailService.getFullCurrentUser());

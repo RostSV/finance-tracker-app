@@ -46,7 +46,7 @@ public class JwtConverter extends AbstractAuthenticationToken {
             }
         }
 
-        return null;
+        throw new IllegalArgumentException("User has unknown role");
     }
 
     private List<String> getUserRoles() {

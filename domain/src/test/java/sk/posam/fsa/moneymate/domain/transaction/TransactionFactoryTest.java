@@ -22,7 +22,7 @@ class TransactionFactoryTest {
 
     private TransactionFactory transactionFactory;
 
-    Category category = new Category("Salary", new User());
+    Category category = new Category("Salary", null, new User());
     Currency currency = new Currency("USD");
     Account account;
 

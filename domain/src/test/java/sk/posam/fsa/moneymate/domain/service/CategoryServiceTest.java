@@ -37,7 +37,7 @@ class CategoryServiceTest {
     @BeforeEach
     public void setUp() {
         user = new User("example@gmail.com", UserRole.USER, "Jack");
-        category = new Category("Category", user);
+        category = new Category("Category", null, user);
         category.setId(1L);
     }
 
@@ -50,7 +50,7 @@ class CategoryServiceTest {
 
     @Test
     public void CategoryService_CreateCategoryWithInvalidName_CategoryNotCreated() {
-        category = new Category("", user);
+        category = new Category("", null, user);
         assertThrows(IllegalArgumentException.class, () -> categoryService.create(category));
         Mockito.verify(categoryRepository, Mockito.times(0)).create(category);
 
@@ -73,7 +73,7 @@ class CategoryServiceTest {
 
     @Test
     public void CategoryService_CategoryIfAlreadyExist_CategoryNotCreated() {
-        category = new Category("Category", user);
+        category = new Category("Category", null, user);
         when(categoryRepository.exists(category)).thenReturn(true);
 
         assertThrows(InstanceAlreadyExistsException.class, () -> categoryService.create(category));

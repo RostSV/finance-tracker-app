@@ -27,7 +27,7 @@ public class CategoryService implements CategoryFacade {
         }
 
         if (category.getAssignedUser() == null) {
-            throw new NullPointerException("Category must have assigned user");
+            throw new NullPointerException("Category must have assigned user/ user not exist");
         }
         // Check if category already exists
         if (categoryRepository.exists(category)) {
