@@ -1,6 +1,7 @@
 package sk.posam.fsa.moneymate.domain.service;
 
 import sk.posam.fsa.moneymate.domain.Category;
+import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceNotFoundException;
 import sk.posam.fsa.moneymate.domain.repository.CategoryRepository;
@@ -64,7 +65,8 @@ public class CategoryService implements CategoryFacade {
 
         // Check if category already exists
         Category existingCategory = categoryRepository.findById(category.getId())
-                .orElseThrow(() -> new InstanceNotFoundException("Category with id " + category.getId() + " not found"));
+                .orElseThrow(() -> new InstanceNotFoundException
+                        ("Category with id " + category.getId() + " not found"));
 
         existingCategory.setName(category.getName());
         existingCategory.setDescription(category.getDescription());
@@ -73,8 +75,8 @@ public class CategoryService implements CategoryFacade {
     }
 
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll()
+    public List<Category> findAllByUser(User user) {
+        return categoryRepository.findAllByUser(user)
                 .stream()
                 .toList();
     }

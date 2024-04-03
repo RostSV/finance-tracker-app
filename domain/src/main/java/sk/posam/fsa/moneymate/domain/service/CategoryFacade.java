@@ -1,6 +1,7 @@
 package sk.posam.fsa.moneymate.domain.service;
 
 import sk.posam.fsa.moneymate.domain.Category;
+import sk.posam.fsa.moneymate.domain.User;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface CategoryFacade {
 
     void update(Category category);
 
-    List<Category> findAll();
+    List<Category> findAllByUser(User user);
 }

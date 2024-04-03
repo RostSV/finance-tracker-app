@@ -1,6 +1,7 @@
 package sk.posam.fsa.moneymate.domain.repository;
 
 import sk.posam.fsa.moneymate.domain.Category;
+import sk.posam.fsa.moneymate.domain.User;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -8,7 +9,7 @@ import java.util.Optional;
 public interface CategoryRepository {
     void create(Category category);
 
-    Collection<Category> findAll();
+    Collection<Category> findAllByUser(User user);
 
     Optional<Category> findById(Long id);
 

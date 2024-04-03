@@ -2,6 +2,7 @@ package sk.posam.fsa.moneymate.jpa.category;
 
 import org.springframework.stereotype.Repository;
 import sk.posam.fsa.moneymate.domain.Category;
+import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.repository.CategoryRepository;
 
 import java.util.Collection;
@@ -21,25 +22,26 @@ public class JpaCategoryRepositoryAdapter implements CategoryRepository {
         categorySpringDataRepository.save(category);
     }
 
+    @Override
+    public void update(Category category) {
+        categorySpringDataRepository.save(category);
+    }
 
     @Override
     public void delete(Long id) {
         categorySpringDataRepository.deleteById(id);
     }
 
-    @Override
-    public Collection<Category> findAll() {
-        return categorySpringDataRepository.findAll();
-    }
 
     @Override
     public Optional<Category> findById(Long id) {
         return categorySpringDataRepository.findById(id);
     }
 
+
     @Override
-    public void update(Category category) {
-        categorySpringDataRepository.save(category);
+    public Collection<Category> findAllByUser(User user) {
+        return categorySpringDataRepository.findAllByAssignedUser(user);
     }
 
     @Override
