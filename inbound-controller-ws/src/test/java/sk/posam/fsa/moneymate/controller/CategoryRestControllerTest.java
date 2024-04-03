@@ -46,7 +46,7 @@ class CategoryRestControllerTest {
     @InjectMocks
     private CategoryRestController categoryRestController;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private MockMvc mockMvc;
 
     private UserDto userDto;

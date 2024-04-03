@@ -1,6 +1,7 @@
 package sk.posam.fsa.moneymate.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.service.UserFacade;
@@ -12,6 +13,7 @@ import sk.posam.fsa.moneymate.security.CurrentUserDetailService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class UserRestController implements UsersApi {
 
     private final UserFacade userService;
@@ -32,7 +34,6 @@ public class UserRestController implements UsersApi {
     }
 
 
-    //TODO: Implement the method so only admin could list all users
     @Override
     public ResponseEntity<List<UserDto>> listUsers() {
 
