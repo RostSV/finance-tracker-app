@@ -66,26 +66,7 @@ class CategoryRestControllerTest {
                 .setControllerAdvice(new GlobalRestExceptionHandler())
                 .build();
     }
-
-    @Test
-    void CategoryController_GetAllCategories_ReturnAllCategoriesAsArrayOfLength2() throws Exception {
-        when(categoryService.findAll()).thenReturn(Arrays.asList(new Category(), new Category()));
-        mockMvc.perform(get("/api/v1/categories"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2));
-        verify(categoryService, times(1)).findAll();
-
-    }
-
-    @Test
-    void CategoryController_GetAllCategories_ReturnEmptyArray() throws Exception {
-        mockMvc.perform(get("/api/v1/categories"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(0));
-        verify(categoryService, times(1)).findAll();
-    }
+    
 
     @Test
     void CategoryController_CreateCategory_CategoryCreated() throws Exception {

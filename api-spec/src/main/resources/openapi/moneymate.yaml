@@ -352,7 +352,44 @@ paths:
         '403':
           description: Request denied. Lack of permission.
 
+  /currencies:
+    post:
+      tags:
+        - Currency
+      summary: Add new currency
+      description: Only ADMIN can add currency
+      operationId: createCurrency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Currency'
+      responses:
+        '201':
+          description: Currency created successfully.
+        '400':
+          description: Invalid input parameters.
+        '403':
+          description: Request denied. Lack of permission.
+        '409':
+          description: Currency already exists.
 
+    get:
+      tags:
+        - Currency
+      summary: Get all currencies
+      operationId: listCurrencies
+
+      responses:
+        '200':
+          description: List of currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Currency'
 
 
 

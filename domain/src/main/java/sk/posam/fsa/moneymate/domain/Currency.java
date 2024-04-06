@@ -39,6 +39,21 @@ public class Currency {
         return sign;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
 
     @Override
     public boolean equals(Object o) {
