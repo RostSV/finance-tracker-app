@@ -1,5 +1,7 @@
 package sk.posam.fsa.moneymate.domain.repository;
 
+import sk.posam.fsa.moneymate.domain.Account;
+import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
 import java.util.Collection;
@@ -33,19 +35,9 @@ public interface TransactionRepository {
      */
     void delete(Long id);
 
-    /**
-     * Finds transactions in the database by their associated account ID.
-     *
-     * @param accountId The ID of the account whose transactions are to be found.
-     * @return A collection of Transaction objects associated with the given account ID.
-     */
-    Collection<Transaction> findByAccount(Long accountId);
 
-    /**
-     * Finds transactions in the database by their associated category ID.
-     *
-     * @param categoryId The ID of the category whose transactions are to be found.
-     * @return A collection of Transaction objects associated with the given category ID.
-     */
-    Collection<Transaction> findByCategory(Long categoryId);
+    Collection<Transaction> findAllByAccount(Account account);
+
+
+    Collection<Transaction> findBAllByCategory(Category category);
 }

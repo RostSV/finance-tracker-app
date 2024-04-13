@@ -6,6 +6,7 @@ import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategorySpringDataRepository extends JpaRepository<Category, Long> {

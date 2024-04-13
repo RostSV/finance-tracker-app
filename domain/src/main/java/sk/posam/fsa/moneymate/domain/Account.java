@@ -27,7 +27,6 @@ public class Account {
         this.createdBy = Objects.requireNonNull(createdBy, "Creator of account cannot be null");
     }
 
-
     public Long getId() {
         return id;
     }
@@ -54,5 +53,33 @@ public class Account {
 
     public User getCreatedBy() {
         return createdBy;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public void setType(AccountType type) {
+        this.type = type;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 }

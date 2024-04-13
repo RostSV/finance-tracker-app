@@ -79,9 +79,6 @@
 
             <many-to-one name="createdBy" fetch="EAGER" target-entity="sk.posam.fsa.moneymate.domain.User">
                 <join-column name="user_id" nullable="false"/>
-                <cascade>
-                    <cascade-all/>
-                </cascade>
             </many-to-one>
 
             <many-to-one name="currency" target-entity="sk.posam.fsa.moneymate.domain.Currency">
