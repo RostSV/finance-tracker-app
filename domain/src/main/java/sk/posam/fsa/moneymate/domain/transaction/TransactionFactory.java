@@ -40,7 +40,6 @@ public class TransactionFactory {
                                          Currency currency,
                                          Account assignedTo) {
 
-
         if (amount == null || amount.doubleValue() <= 0) {
             throw new IllegalArgumentException("Amount cannot be null or below zero");
         }
@@ -53,7 +52,7 @@ public class TransactionFactory {
         if (assignedTo == null) {
             throw new IllegalArgumentException("Account cannot be null");
         }
-        if (accountRepository.findById(assignedTo.getId()) == null) {
+        if (accountRepository.findById(assignedTo.getId()).isEmpty()) {
             throw new IllegalArgumentException("Account not found");
         }
     }

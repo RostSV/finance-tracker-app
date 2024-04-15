@@ -3,6 +3,7 @@ package sk.posam.fsa.moneymate.jpa.transaction;
 import org.springframework.stereotype.Repository;
 import sk.posam.fsa.moneymate.domain.Account;
 import sk.posam.fsa.moneymate.domain.Category;
+import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.repository.TransactionRepository;
 import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
@@ -33,13 +34,18 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
     }
 
     @Override
-    public Collection<Transaction> findAllByAccount(Account account) {
-        return transactionSpringDataRepository.findByAssignedTo(account);
+    public Collection<Transaction> findAllByAccount(Long accountId) {
+        return transactionSpringDataRepository.findAllByAccountId(accountId);
     }
 
     @Override
     public Collection<Transaction> findBAllByCategory(Category category) {
         return transactionSpringDataRepository.findAllByCategory(category);
+    }
+
+    @Override
+    public Collection<Transaction> findByUser(Long userId) {
+        return transactionSpringDataRepository.findAllByUser(userId);
     }
 
 

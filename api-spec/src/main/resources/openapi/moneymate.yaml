@@ -79,6 +79,30 @@ paths:
           description: Account not found
 
   /accounts/{accountId}:
+    get:
+      tags:
+        - Account
+      summary: Get an account by ID
+      operationId: getAccount
+
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Numeric id of the account to get
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '404':
+          description: Account not found
+
     delete:
       tags:
         - Account
@@ -429,7 +453,7 @@ components:
       type: string
       enum:
         - PERSONAL
-        - SAVING
+        - SAVINGS
         - CUSTOM
 
     User:
@@ -460,7 +484,6 @@ components:
     Transaction:
       type: object
       required:
-        - date
         - amount
         - category
         - type
@@ -473,6 +496,7 @@ components:
           description: Unique identifier of the transaction.
         date:
           type: string
+          format: date-time
           description: Date and time when transaction was added.
         amount:
           type: number

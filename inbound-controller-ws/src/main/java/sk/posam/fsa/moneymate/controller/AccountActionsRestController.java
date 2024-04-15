@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.moneymate.domain.Account;
 import sk.posam.fsa.moneymate.domain.service.AccountActionsService;
+import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 import sk.posam.fsa.moneymate.mapper.AccountMapper;
+import sk.posam.fsa.moneymate.mapper.TransactionMapper;
 import sk.posam.fsa.moneymate.rest.api.AccountsApi;
 import sk.posam.fsa.moneymate.rest.dto.AccountDto;
 import sk.posam.fsa.moneymate.rest.dto.TransactionDto;
@@ -17,23 +19,27 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1")
-public class AccountRestController implements AccountsApi {
+public class AccountActionsRestController implements AccountsApi {
 
     private final AccountMapper accountMapper;
+    private final TransactionMapper transactionMapper;
     private final AccountActionsService accountActionsService;
     private final CurrentUserDetailService currentUserDetailService;
 
-    public AccountRestController(AccountActionsService accountActionsService,
-                                 AccountMapper accountMapper,
-                                 CurrentUserDetailService currentUserDetailService1) {
+    public AccountActionsRestController(AccountActionsService accountActionsService,
+                                        AccountMapper accountMapper, TransactionMapper transactionMapper,
+                                        CurrentUserDetailService currentUserDetailService1) {
         this.accountActionsService = accountActionsService;
         this.accountMapper = accountMapper;
+        this.transactionMapper = transactionMapper;
         this.currentUserDetailService = currentUserDetailService1;
     }
 
     @Override
     public ResponseEntity<Void> addTransaction(Long accountId, TransactionDto transactionDto) {
-        return null;
+
+        accountActionsService.createTransaction(accountId,transactionMapper.toEntity(transactionDto));
+        return ResponseEntity.ok().build();
     }
     @Override
     public ResponseEntity<Void> deleteTransactionById(Long accountId, Long transactionId) {
@@ -41,13 +47,32 @@ public class AccountRestController implements AccountsApi {
     }
 
     @Override
+    public ResponseEntity<AccountDto> getAccount(Long accountId) {
+        Account account = accountActionsService.findAccountById(accountId);
+        return ResponseEntity.ok().body(accountMapper.toAccountDto(account));
+    }
+
+    @Override
     public ResponseEntity<List<TransactionDto>> listTransactions() {
-        return null;
+        List<Transaction> transactions = accountActionsService
+                .findTransactionsByUser(currentUserDetailService.getFullCurrentUser());
+
+        return transactions != null ? ResponseEntity.ok()
+                .body(transactions.stream()
+                        .map(transactionMapper::toDto)
+                        .toList())
+                : ResponseEntity.ok().body(Collections.emptyList());
     }
 
     @Override
     public ResponseEntity<List<TransactionDto>> listTransactionsByAccount(Long accountId) {
-        return null;
+        List<Transaction> transactions = accountActionsService.findTransactionsByAccount(accountId);
+
+        return transactions != null ? ResponseEntity.ok()
+                .body(transactions.stream()
+                        .map(transactionMapper::toDto)
+                        .toList())
+                : ResponseEntity.ok().body(Collections.emptyList());
     }
 
     @Override
@@ -67,6 +92,7 @@ public class AccountRestController implements AccountsApi {
         accountActionsService.deleteAccount(accountId);
         return ResponseEntity.noContent().build();
     }
+
 
     @Override
     public ResponseEntity<List<AccountDto>> listAccounts() {

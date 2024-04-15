@@ -7,6 +7,7 @@ import sk.posam.fsa.moneymate.domain.repository.CategoryRepository;
 import sk.posam.fsa.moneymate.domain.repository.CurrencyRepository;
 import sk.posam.fsa.moneymate.domain.repository.TransactionRepository;
 import sk.posam.fsa.moneymate.domain.service.AccountActionsService;
+import sk.posam.fsa.moneymate.domain.transaction.TransactionFactory;
 
 @Configuration
 public class AccountActionsBeanConfig {
@@ -15,7 +16,14 @@ public class AccountActionsBeanConfig {
     public AccountActionsService accountActionsService(TransactionRepository transactionRepository,
                                                        AccountRepository accountRepository,
                                                        CurrencyRepository currencyRepository,
-                                                       CategoryRepository categoryRepository) {
-        return new AccountActionsService(transactionRepository, accountRepository, currencyRepository, categoryRepository);
+                                                       CategoryRepository categoryRepository,
+                                                       TransactionFactory transactionFactory) {
+
+        return new AccountActionsService(
+                transactionRepository,
+                accountRepository,
+                currencyRepository,
+                categoryRepository,
+                transactionFactory);
     }
 }

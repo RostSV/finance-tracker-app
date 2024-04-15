@@ -5,6 +5,7 @@ import sk.posam.fsa.moneymate.domain.Currency;
 import sk.posam.fsa.moneymate.domain.repository.CurrencyRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class JpaCurrencyRepositoryAdapter implements CurrencyRepository {
@@ -28,5 +29,10 @@ public class JpaCurrencyRepositoryAdapter implements CurrencyRepository {
     @Override
     public Currency findByCode(String code) {
         return currencySpringDataRepository.findByCode(code);
+    }
+
+    @Override
+    public Optional<Currency> findById(Long id) {
+        return currencySpringDataRepository.findById(id);
     }
 }

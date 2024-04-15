@@ -11,6 +11,7 @@ import sk.posam.fsa.moneymate.domain.repository.CategoryRepository;
 import sk.posam.fsa.moneymate.domain.repository.CurrencyRepository;
 import sk.posam.fsa.moneymate.domain.repository.TransactionRepository;
 import sk.posam.fsa.moneymate.domain.transaction.Transaction;
+import sk.posam.fsa.moneymate.domain.transaction.TransactionFactory;
 import sk.posam.fsa.moneymate.domain.transaction.TransactionType;
 
 import java.math.BigDecimal;
@@ -25,14 +26,18 @@ public class AccountActionsService implements AccountActionsFacade {
     private final CurrencyRepository currencyRepository;
     private final CategoryRepository categoryRepository;
 
+    private final TransactionFactory transactionFactory;
+
     public AccountActionsService(TransactionRepository transactionRepository,
                                  AccountRepository accountRepository,
                                  CurrencyRepository currencyRepository,
-                                 CategoryRepository categoryRepository) {
+                                 CategoryRepository categoryRepository,
+                                 TransactionFactory transactionFactory) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
         this.currencyRepository = currencyRepository;
         this.categoryRepository = categoryRepository;
+        this.transactionFactory = transactionFactory;
     }
 
 
@@ -104,9 +109,40 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
     @Override
-    public void createTransaction(Transaction transaction) {
+    public void createTransaction(Long accountId, Transaction transaction) {
 
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account with id " + accountId + " not found"));
+
+        validateTransaction(transaction);
+
+
+        //Transaction created by Transaction factory
+        Transaction _transaction = null;
+
+        if(transaction.getType() == TransactionType.INCOME){
+            _transaction = transactionFactory.createIncome(
+                    transaction.getAmount(),
+                    transaction.getDescription(),
+                    transaction.getCategory(),
+                    transaction.getCurrency(),
+                    account);
+
+            //(else if) in case we will add more types of transactions in the future
+        } else if(transaction.getType() == TransactionType.EXPENSE){
+            _transaction = transactionFactory.createExpense(
+                    transaction.getAmount(),
+                    transaction.getDescription(),
+                    transaction.getCategory(),
+                    transaction.getCurrency(),
+                    account);
+        }
+
+
+
+        transactionRepository.create(_transaction);
     }
+
 
     @Override
     public void updateTransaction(Transaction transaction) {
@@ -119,14 +155,30 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
     @Override
-    public List<Transaction> findTransactionsByAccount(Account account) {
-        return null;
+    public List<Transaction> findTransactionsByAccount(Long accountId) {
+        return transactionRepository.findAllByAccount(accountId)
+                .stream()
+                .toList();
     }
 
     @Override
     public List<Transaction> findTransactionsByCategory(Category category) {
         return null;
     }
+
+    @Override
+    public List<Transaction> findTransactionsByUser(User user) {
+        return transactionRepository.findByUser(user.getId())
+                .stream()
+                .toList();
+    }
+
+    @Override
+    public Account findAccountById(Long accountId) {
+        return accountRepository.findById(accountId)
+                .orElseThrow(() -> new InstanceNotFoundException("Account with id " + accountId + " not found"));
+    }
+
 
     //TODO refactor to separate class
     private void validateAccount(Account account) {
@@ -192,8 +244,16 @@ public class AccountActionsService implements AccountActionsFacade {
             throw new IllegalArgumentException("Type of transaction is not valid. Valid types are: " + Arrays.toString(TransactionType.values()));
         }
 
+        if(currencyRepository.findById(transaction.getCurrency().getId()).isEmpty()){
+            throw new IllegalArgumentException("Currency with id " + transaction.getCurrency().getId() + " is not available in the system");
+        }
+
         if(currencyRepository.findByCode(transaction.getCurrency().getCode()) == null){
             throw new IllegalArgumentException("Currency with code " + transaction.getCurrency().getCode() + " is not available in the system");
+        }
+
+        if(transaction.getAssignedTo() == null){
+            throw new IllegalArgumentException("Account assigned to transaction cannot be null");
         }
 
         if(accountRepository.findById(transaction.getAssignedTo().getId()).isEmpty()){

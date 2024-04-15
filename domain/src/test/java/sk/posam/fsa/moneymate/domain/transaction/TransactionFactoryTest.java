@@ -11,6 +11,7 @@ import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.repository.AccountRepository;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,7 +36,7 @@ class TransactionFactoryTest {
 
     @Test
     public void createIncomeProducesIncomeTransaction() {
-        when(accountRepository.findById(any())).thenReturn(account);
+        when(accountRepository.findById(any())).thenReturn(Optional.ofNullable(account));
 
         Transaction transaction = transactionFactory.createIncome(new BigDecimal("100.00"), "Salary", category, currency, account);
 
@@ -45,7 +46,7 @@ class TransactionFactoryTest {
 
     @Test
     public void createExpenseProducesExpenseTransaction() {
-        when(accountRepository.findById(any())).thenReturn(account);
+        when(accountRepository.findById(any())).thenReturn(Optional.ofNullable(account));
 
         Transaction transaction = transactionFactory.createExpense(new BigDecimal("50.00"), "Groceries", category, currency, account);
 
@@ -67,14 +68,14 @@ class TransactionFactoryTest {
     public void createIncomeWithInvalidAccountThrowsException() {
         when(accountRepository.findById(any())).thenReturn(null);
 
-        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createIncome(new BigDecimal("100.00"), "Salary", category, currency, new Account()));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createIncome(new BigDecimal("100.00"), "Salary", category, currency, null));
     }
 
     @Test
     public void createExpenseWithInvalidAccountShouldThrowException() {
         when(accountRepository.findById(any())).thenReturn(null);
 
-        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createExpense(new BigDecimal("50.00"), "Groceries", category, currency, new Account()));
+        assertThrows(IllegalArgumentException.class, () -> transactionFactory.createExpense(new BigDecimal("50.00"), "Groceries", category, currency, null));
     }
 
     @Test

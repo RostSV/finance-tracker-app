@@ -77,4 +77,28 @@ public class Transaction {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public void setAssignedTo(Account assignedTo) {
+        this.assignedTo = assignedTo;
+    }
 }

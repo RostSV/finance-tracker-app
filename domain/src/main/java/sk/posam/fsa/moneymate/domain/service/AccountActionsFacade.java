@@ -8,6 +8,7 @@ import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountActionsFacade {
 
@@ -22,15 +23,19 @@ public interface AccountActionsFacade {
     List<Account> findAccountsByCurrencyCode(String currencyCode);
 
     //Transactions
-    void createTransaction(Transaction transaction);
+    void createTransaction(Long accountId, Transaction transaction);
 
     void updateTransaction(Transaction transaction);
 
     void deleteTransaction(Long id);
 
 
-    List<Transaction> findTransactionsByAccount(Account account);
+    List<Transaction> findTransactionsByAccount(Long accountId);
 
 
     List<Transaction> findTransactionsByCategory(Category category);
+
+    List<Transaction>  findTransactionsByUser(User user);
+
+    Account findAccountById(Long accountId);
 }
