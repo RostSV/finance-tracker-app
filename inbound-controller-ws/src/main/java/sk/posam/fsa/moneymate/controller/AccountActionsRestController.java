@@ -53,29 +53,6 @@ public class AccountActionsRestController implements AccountsApi {
     }
 
     @Override
-    public ResponseEntity<List<TransactionDto>> listTransactions() {
-        List<Transaction> transactions = accountActionsService
-                .findTransactionsByUser(currentUserDetailService.getFullCurrentUser());
-
-        return transactions != null ? ResponseEntity.ok()
-                .body(transactions.stream()
-                        .map(transactionMapper::toDto)
-                        .toList())
-                : ResponseEntity.ok().body(Collections.emptyList());
-    }
-
-    @Override
-    public ResponseEntity<List<TransactionDto>> listTransactionsByAccount(Long accountId) {
-        List<Transaction> transactions = accountActionsService.findTransactionsByAccount(accountId);
-
-        return transactions != null ? ResponseEntity.ok()
-                .body(transactions.stream()
-                        .map(transactionMapper::toDto)
-                        .toList())
-                : ResponseEntity.ok().body(Collections.emptyList());
-    }
-
-    @Override
     public ResponseEntity<Void> updateTransaction(Long accountId, TransactionDto transactionDto) {
         return null;
     }
@@ -104,6 +81,30 @@ public class AccountActionsRestController implements AccountsApi {
                         .toList())
                 : ResponseEntity.ok().body(Collections.emptyList());
     }
+
+    @Override
+    public ResponseEntity<List<TransactionDto>> listTransactions(Integer limit) {
+        List<Transaction> transactions = accountActionsService
+                .findTransactionsByUser(currentUserDetailService.getFullCurrentUser(), limit);
+
+        return transactions != null ? ResponseEntity.ok()
+                .body(transactions.stream()
+                        .map(transactionMapper::toDto)
+                        .toList())
+                : ResponseEntity.ok().body(Collections.emptyList());
+    }
+
+    @Override
+    public ResponseEntity<List<TransactionDto>> listTransactionsByAccount(Long accountId, Integer limit) {
+        List<Transaction> transactions = accountActionsService.findTransactionsByAccount(accountId, limit);
+
+        return transactions != null ? ResponseEntity.ok()
+                .body(transactions.stream()
+                        .map(transactionMapper::toDto)
+                        .toList())
+                : ResponseEntity.ok().body(Collections.emptyList());
+    }
+
 
     @Override
     public ResponseEntity<Void> updateAccount(AccountDto accountDto) {

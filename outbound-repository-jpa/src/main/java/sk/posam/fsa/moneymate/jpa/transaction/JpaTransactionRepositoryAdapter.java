@@ -1,9 +1,9 @@
 package sk.posam.fsa.moneymate.jpa.transaction;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import sk.posam.fsa.moneymate.domain.Account;
+import org.springframework.data.domain.Pageable;
 import sk.posam.fsa.moneymate.domain.Category;
-import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.repository.TransactionRepository;
 import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
@@ -32,21 +32,27 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
     public void delete(Long id) {
         transactionSpringDataRepository.deleteById(id);
     }
-
-    @Override
-    public Collection<Transaction> findAllByAccount(Long accountId) {
-        return transactionSpringDataRepository.findAllByAccountId(accountId);
-    }
-
     @Override
     public Collection<Transaction> findBAllByCategory(Category category) {
         return transactionSpringDataRepository.findAllByCategory(category);
     }
 
     @Override
-    public Collection<Transaction> findByUser(Long userId) {
-        return transactionSpringDataRepository.findAllByUser(userId);
+    public Collection<Transaction> findAllByAccount(Long accountId, Integer limit) {
+        if(limit != null){
+            Pageable pageable = PageRequest.of(0, limit);
+            return transactionSpringDataRepository.findAllByAccountId(accountId, pageable).getContent();
+        }
+        return transactionSpringDataRepository.findAllByUser(accountId, Pageable.unpaged()).getContent();
     }
+    @Override
+    public Collection<Transaction> findByUser(Long userId, Integer limit) {
+        if(limit != null){
+            Pageable pageable = PageRequest.of(0, limit);
+            return transactionSpringDataRepository.findAllByUser(userId, pageable).getContent();
+        }
 
+        return transactionSpringDataRepository.findAllByUser(userId, Pageable.unpaged()).getContent();
+    }
 
 }

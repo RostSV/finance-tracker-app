@@ -8,7 +8,6 @@ import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public interface AccountActionsFacade {
 
@@ -30,12 +29,12 @@ public interface AccountActionsFacade {
     void deleteTransaction(Long id);
 
 
-    List<Transaction> findTransactionsByAccount(Long accountId);
+    List<Transaction> findTransactionsByAccount(Long accountId, Integer limit);
 
 
     List<Transaction> findTransactionsByCategory(Category category);
 
-    List<Transaction>  findTransactionsByUser(User user);
+    List<Transaction>  findTransactionsByUser(User user, Integer limit);
 
     Account findAccountById(Long accountId);
 }

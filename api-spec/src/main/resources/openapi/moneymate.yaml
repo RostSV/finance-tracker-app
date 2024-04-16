@@ -126,12 +126,23 @@ paths:
           description: Account not found
 
   /accounts/transactions:
+
     get:
       tags:
         - Transaction
       summary: Get all user's transactions
       description: Return all transactions from every account as list
       operationId: listTransactions
+
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            format: int32
+          description: The numbers of items to return
+
+
 
       responses:
         '200':
@@ -158,7 +169,15 @@ paths:
           schema:
             type: integer
             format: int64
-            description: Numeric id of account to get it's transactions
+            description: Numeric id of account to get its transactions
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            description: The number of items to return
+
       responses:
         '200':
           description: List of transactions

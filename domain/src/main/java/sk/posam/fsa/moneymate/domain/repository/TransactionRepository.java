@@ -1,8 +1,6 @@
 package sk.posam.fsa.moneymate.domain.repository;
 
-import sk.posam.fsa.moneymate.domain.Account;
 import sk.posam.fsa.moneymate.domain.Category;
-import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
 import java.util.Collection;
@@ -37,10 +35,10 @@ public interface TransactionRepository {
     void delete(Long id);
 
 
-    Collection<Transaction> findAllByAccount(Long accountId);
+    Collection<Transaction> findAllByAccount(Long accountId, Integer limit);
 
 
     Collection<Transaction> findBAllByCategory(Category category);
 
-    Collection<Transaction> findByUser(Long userId);
+    Collection<Transaction> findByUser(Long userId, Integer limit);
 }

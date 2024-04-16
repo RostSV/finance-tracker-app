@@ -159,8 +159,8 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
     @Override
-    public List<Transaction> findTransactionsByAccount(Long accountId) {
-        return transactionRepository.findAllByAccount(accountId)
+    public List<Transaction> findTransactionsByAccount(Long accountId, Integer limit) {
+        return transactionRepository.findAllByAccount(accountId, limit)
                 .stream()
                 .toList();
     }
@@ -171,8 +171,8 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
     @Override
-    public List<Transaction> findTransactionsByUser(User user) {
-        return transactionRepository.findByUser(user.getId())
+    public List<Transaction> findTransactionsByUser(User user, Integer limit) {
+        return transactionRepository.findByUser(user.getId(),limit)
                 .stream()
                 .toList();
     }
