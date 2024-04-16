@@ -59,7 +59,7 @@ public class Transaction {
     }
 
     public TransactionType getType() {
-        return type;
+        return (TransactionType)type;
     }
 
     public Currency getCurrency() {

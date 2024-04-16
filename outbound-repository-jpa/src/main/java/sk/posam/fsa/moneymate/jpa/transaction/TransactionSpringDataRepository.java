@@ -17,6 +17,6 @@ public interface TransactionSpringDataRepository extends JpaRepository<Transacti
             "WHERE a.user_id = :userId", nativeQuery = true)
     Collection<Transaction> findAllByUser(Long userId);
 
-    @Query(value = "SELECT * FROM transaction where account_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM transaction where account_id = :id ORDER BY transaction.date desc", nativeQuery = true)
     Collection<Transaction> findAllByAccountId(Long id);
 }

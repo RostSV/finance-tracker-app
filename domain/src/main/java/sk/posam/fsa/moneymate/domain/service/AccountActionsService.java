@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class AccountActionsService implements AccountActionsFacade {
 
@@ -110,7 +111,6 @@ public class AccountActionsService implements AccountActionsFacade {
 
     @Override
     public void createTransaction(Long accountId, Transaction transaction) {
-
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("Account with id " + accountId + " not found"));
 
@@ -136,7 +136,11 @@ public class AccountActionsService implements AccountActionsFacade {
                     transaction.getCategory(),
                     transaction.getCurrency(),
                     account);
+
         }
+
+        this.updateAccountBalance(accountId, account.getBalance()
+                .add(transaction.getType() == TransactionType.INCOME ? transaction.getAmount() : transaction.getAmount().negate()));
 
 
 
@@ -237,12 +241,14 @@ public class AccountActionsService implements AccountActionsFacade {
             throw new IllegalArgumentException("Category with name " + transaction.getCategory().getName() + " is not available in the system");
         }
 
-        for(TransactionType type : TransactionType.values()){
-            if(type.name().equals(transaction.getType().name())){
-                return;
+
+            if(transaction.getType() != TransactionType.EXPENSE && transaction.getType() != TransactionType.INCOME){
+                Logger logger = Logger.getLogger(AccountActionsService.class.getName());
+                logger.info(transaction.getType().name());
+                throw new IllegalArgumentException("Type of transaction is not valid. Valid types are: " + Arrays.toString(TransactionType.values()));
             }
-            throw new IllegalArgumentException("Type of transaction is not valid. Valid types are: " + Arrays.toString(TransactionType.values()));
-        }
+
+
 
         if(currencyRepository.findById(transaction.getCurrency().getId()).isEmpty()){
             throw new IllegalArgumentException("Currency with id " + transaction.getCurrency().getId() + " is not available in the system");

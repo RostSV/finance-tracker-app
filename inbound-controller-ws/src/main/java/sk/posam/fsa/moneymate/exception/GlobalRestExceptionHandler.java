@@ -10,11 +10,12 @@ import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceNotFoundException;
 
 import java.sql.Timestamp;
+import java.util.logging.Logger;
 
 
 @RestControllerAdvice
 public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
-
+    private Logger logger = Logger.getLogger(GlobalRestExceptionHandler.class.getName());
 
     //handler of invalid input and return http status 400(BAD_REQUEST)
     @ExceptionHandler(value = {NullPointerException.class, IllegalArgumentException.class})
@@ -23,7 +24,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
                 new Timestamp(System.currentTimeMillis()));
-
+        logger.warning(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -34,7 +35,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.CONFLICT.value(),
                 ex.getMessage(),
                 new Timestamp(System.currentTimeMillis()));
-
+        logger.warning(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
@@ -45,7 +46,7 @@ public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.NOT_FOUND.value(),
                 ex.getMessage(),
                 new Timestamp(System.currentTimeMillis()));
-
+        logger.warning(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
