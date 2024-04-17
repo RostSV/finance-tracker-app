@@ -15,6 +15,7 @@ import sk.posam.fsa.moneymate.domain.transaction.TransactionFactory;
 import sk.posam.fsa.moneymate.domain.transaction.TransactionType;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -159,8 +160,14 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
     @Override
-    public List<Transaction> findTransactionsByAccount(Long accountId, Integer limit) {
-        return transactionRepository.findAllByAccount(accountId, limit)
+    public List<Transaction> findTransactionsByAccount(Long accountId, Integer limitDays) {
+
+        if(limitDays == null || limitDays < 0)
+            throw new IllegalArgumentException("Limit days cannot be null or negative");
+
+        LocalDate startDate = LocalDate.now().minusDays(limitDays);
+
+        return transactionRepository.findAllByAccount(accountId, startDate)
                 .stream()
                 .toList();
     }
@@ -171,8 +178,14 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
     @Override
-    public List<Transaction> findTransactionsByUser(User user, Integer limit) {
-        return transactionRepository.findByUser(user.getId(),limit)
+    public List<Transaction> findTransactionsByUser(User user, Integer limitDays) {
+
+        if(limitDays == null || limitDays < 0)
+            throw new IllegalArgumentException("Limit days cannot be null or negative");
+
+        LocalDate startDate = LocalDate.now().minusDays(limitDays);
+
+        return transactionRepository.findByUser(user.getId(), startDate)
                 .stream()
                 .toList();
     }

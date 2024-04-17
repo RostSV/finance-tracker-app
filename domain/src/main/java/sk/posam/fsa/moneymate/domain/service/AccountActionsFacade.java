@@ -29,12 +29,12 @@ public interface AccountActionsFacade {
     void deleteTransaction(Long id);
 
 
-    List<Transaction> findTransactionsByAccount(Long accountId, Integer limit);
+    List<Transaction> findTransactionsByAccount(Long accountId, Integer limitDays);
 
 
     List<Transaction> findTransactionsByCategory(Category category);
 
-    List<Transaction>  findTransactionsByUser(User user, Integer limit);
+    List<Transaction>  findTransactionsByUser(User user, Integer limitDays);
 
     Account findAccountById(Long accountId);
 }

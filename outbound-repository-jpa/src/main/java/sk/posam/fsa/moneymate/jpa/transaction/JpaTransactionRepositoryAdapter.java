@@ -7,6 +7,7 @@ import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.repository.TransactionRepository;
 import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Repository
@@ -38,21 +39,14 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
     }
 
     @Override
-    public Collection<Transaction> findAllByAccount(Long accountId, Integer limit) {
-        if(limit != null){
-            Pageable pageable = PageRequest.of(0, limit);
-            return transactionSpringDataRepository.findAllByAccountId(accountId, pageable).getContent();
-        }
-        return transactionSpringDataRepository.findAllByUser(accountId, Pageable.unpaged()).getContent();
+    public Collection<Transaction> findAllByAccount(Long accountId, LocalDate startDate) {
+        return transactionSpringDataRepository.findAllByAccountId(accountId, startDate);
     }
-    @Override
-    public Collection<Transaction> findByUser(Long userId, Integer limit) {
-        if(limit != null){
-            Pageable pageable = PageRequest.of(0, limit);
-            return transactionSpringDataRepository.findAllByUser(userId, pageable).getContent();
-        }
 
-        return transactionSpringDataRepository.findAllByUser(userId, Pageable.unpaged()).getContent();
+
+    @Override
+    public Collection<Transaction> findByUser(Long userId, LocalDate startDate) {
+        return transactionSpringDataRepository.findAllByUser(userId, startDate);
     }
 
 }

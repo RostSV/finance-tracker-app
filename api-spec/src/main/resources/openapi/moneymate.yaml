@@ -136,11 +136,12 @@ paths:
 
       parameters:
         - in: query
-          name: limit
+          name: days
+          required: true
           schema:
             type: integer
             format: int32
-          description: The numbers of items to return
+          description: The numbers of days to get transaction from
 
 
 
@@ -170,13 +171,13 @@ paths:
             type: integer
             format: int64
             description: Numeric id of account to get its transactions
-        - name: limit
+        - name: days
           in: query
-          required: false
+          required: true
           schema:
             type: integer
             format: int32
-            description: The number of items to return
+            description: The numbers of days to get transaction from
 
       responses:
         '200':
