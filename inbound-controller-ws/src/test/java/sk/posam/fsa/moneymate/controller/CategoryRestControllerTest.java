@@ -145,7 +145,7 @@ class CategoryRestControllerTest {
 
     @Test
     void CategoryController_CreateCategoryWithNullUserFirstName_CategoryNotCreated() throws Exception {
-        userDto.setFirstName(null);
+        userDto.setName(null);
         categoryDto.setAssignedUser(userDto);
         mockMvc.perform(post("/api/v1/categories")
                         .contentType("application/json")

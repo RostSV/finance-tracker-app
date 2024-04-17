@@ -7,16 +7,16 @@ public class User {
     private Long id;
     private String email;
     private UserRole role;
-    private String firstName;
+    private String name;
 
     //Empty constructor for JPA
     public User() {
     }
 
-    public User(String email, UserRole role, String firstName) {
+    public User(String email, UserRole role, String name) {
         this.email = Objects.requireNonNull(email, "User email cannot be null");
         this.role = Objects.requireNonNull(role, "User role cannot be null");
-        this.firstName = firstName;
+        this.name = name;
     }
 
     public Long getId() {
@@ -31,8 +31,8 @@ public class User {
         return role;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
     public void setId(Long id) {
@@ -47,8 +47,8 @@ public class User {
         this.role = role;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -56,14 +56,14 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
         return Objects.equals(id, user.id) &&
-                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(name, user.name) &&
                 Objects.equals(email, user.email) &&
                 role == user.role;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, email, role);
+        return Objects.hash(id, name, email, role);
     }
 
 

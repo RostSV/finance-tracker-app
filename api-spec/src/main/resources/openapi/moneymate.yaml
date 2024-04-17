@@ -491,7 +491,7 @@ components:
           description: Email address of the user.
         role:
           $ref: '#/components/schemas/UserRole'
-        firstName:
+        name:
           type: string
 
     UserRole:

@@ -61,7 +61,7 @@ class UserRestControllerTest {
     @Test
     public void UserRestController_CreateUser_UserCreated() throws Exception {
         UserDto userDto = new UserDto("user@gmail.com", UserRoleDto.USER);
-        userDto.setFirstName("Mike");
+        userDto.setName("Mike");
         when(userMapper.toUserEntity(userDto)).thenReturn(user);
 
         mockMvc.perform(post("/api/v1/users")
