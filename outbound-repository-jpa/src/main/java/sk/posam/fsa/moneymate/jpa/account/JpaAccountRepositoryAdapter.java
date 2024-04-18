@@ -40,7 +40,7 @@ public class JpaAccountRepositoryAdapter implements AccountRepository {
 
     @Override
     public Collection<Account> findByUser(User user) {
-        return accountSpringDataRepository.findByCreatedBy(user);
+        return accountSpringDataRepository.findByCreatedByOrderByIdDesc(user);
     }
 
     @Override

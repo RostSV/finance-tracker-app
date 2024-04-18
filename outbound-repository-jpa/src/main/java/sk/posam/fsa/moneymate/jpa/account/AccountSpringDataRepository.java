@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface AccountSpringDataRepository extends JpaRepository<Account, Long>{
-    Collection<Account> findByCreatedBy(User user);
+    Collection<Account> findByCreatedByOrderByIdDesc(User user);
 
     Collection<Account> findByType(AccountType type);
 

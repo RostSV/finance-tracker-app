@@ -43,7 +43,6 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
         return transactionSpringDataRepository.findAllByAccountId(accountId, startDate);
     }
 
-
     @Override
     public Collection<Transaction> findByUser(Long userId, LocalDate startDate) {
         return transactionSpringDataRepository.findAllByUser(userId, startDate);
