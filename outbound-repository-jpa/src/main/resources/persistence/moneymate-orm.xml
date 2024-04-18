@@ -16,7 +16,7 @@
                 <generated-value strategy="IDENTITY"/>
             </id>
 
-            <basic name="firstName"/>
+            <basic name="name"/>
 
             <basic name="email">
                 <column name="email" nullable="false"/>
@@ -108,8 +108,8 @@
 
             <basic name="description"/>
 
-            <basic name="date">
-                <column name="date" nullable="false"/>
+            <basic name="createdOn">
+                <column name="createdOn" nullable="false"/>
             </basic>
 
             <many-to-one name="assignedTo" fetch="EAGER" target-entity="sk.posam.fsa.moneymate.domain.Account">

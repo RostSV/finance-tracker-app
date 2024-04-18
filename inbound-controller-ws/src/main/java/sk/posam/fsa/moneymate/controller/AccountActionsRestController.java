@@ -37,7 +37,6 @@ public class AccountActionsRestController implements AccountsApi {
 
     @Override
     public ResponseEntity<Void> addTransaction(Long accountId, TransactionDto transactionDto) {
-
         accountActionsService.createTransaction(accountId,transactionMapper.toEntity(transactionDto));
         return ResponseEntity.ok().build();
     }

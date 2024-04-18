@@ -28,7 +28,7 @@ public class TransactionMapper {
 
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setId(transaction.getId());
-        transactionDto.setDate(transaction.getDate().atOffset(ZoneOffset.UTC));
+        transactionDto.setCreatedOn(transaction.getCreatedOn().atOffset(ZoneOffset.UTC));
         transactionDto.setAmount(transaction.getAmount());
         transactionDto.setDescription(transaction.getDescription());
         transactionDto.setCategory(categoryMapper.toDto(transaction.getCategory()));
@@ -48,7 +48,7 @@ public class TransactionMapper {
 
         Transaction transaction = new Transaction();
         transaction.setId(transactionDto.getId());
-        transaction.setDate(transactionDto.getDate() != null ? transactionDto.getDate().toLocalDateTime() : null);
+        transaction.setCreatedOn(transactionDto.getCreatedOn() != null ? transactionDto.getCreatedOn().toInstant() : null);
         transaction.setAmount(transactionDto.getAmount());
         transaction.setDescription(transactionDto.getDescription());
         transaction.setCategory(categoryMapper.toEntity(transactionDto.getCategory()));

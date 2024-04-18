@@ -514,10 +514,10 @@ components:
           type: integer
           format: int64
           description: Unique identifier of the transaction.
-        date:
+        createdOn:
           type: string
           format: date-time
-          description: Date and time when transaction was added.
+          description: Date and time when transaction was added in UTC.
         amount:
           type: number
           description: Amount of the transaction.

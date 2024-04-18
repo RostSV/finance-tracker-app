@@ -15,10 +15,10 @@ public interface TransactionSpringDataRepository extends JpaRepository<Transacti
     Collection<Transaction> findAllByCategory(Category category);
 
     @Query(value = "SELECT t.* FROM transaction t JOIN account a ON t.account_id = a.id " +
-            "WHERE a.user_id = :userId AND t.date >= :startDate", nativeQuery = true)
+            "WHERE a.user_id = :userId AND t.created_on >= :startDate", nativeQuery = true)
     Collection<Transaction> findAllByUser(Long userId, LocalDate startDate);
 
-    @Query(value = "SELECT * FROM transaction where account_id = :id AND transaction.date >= :startDate ORDER BY transaction.date desc", nativeQuery = true)
+    @Query(value = "SELECT * FROM transaction where account_id = :id AND transaction.created_on >= :startDate ORDER BY transaction.created_on desc", nativeQuery = true)
     Collection<Transaction> findAllByAccountId(Long id, LocalDate startDate);
 
 

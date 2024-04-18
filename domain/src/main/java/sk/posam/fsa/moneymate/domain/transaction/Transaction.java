@@ -5,12 +5,13 @@ import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.Currency;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
+
 
 public class Transaction {
 
     private Long id;
-    private LocalDateTime date;
+    private Instant createdOn;
     private BigDecimal amount;
     private String description;
     private Category category;
@@ -29,7 +30,7 @@ public class Transaction {
                           TransactionType type,
                           Currency currency,
                           Account assignedTo) {
-        this.date = LocalDateTime.now();
+        this.createdOn = Instant.now();
         this.amount = amount;
         this.description = description;
         this.category = category;
@@ -42,9 +43,6 @@ public class Transaction {
         return id;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -59,7 +57,7 @@ public class Transaction {
     }
 
     public TransactionType getType() {
-        return (TransactionType)type;
+        return  type;
     }
 
     public Currency getCurrency() {
@@ -81,11 +79,6 @@ public class Transaction {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
     public void setCategory(Category category) {
         this.category = category;
     }
@@ -100,5 +93,13 @@ public class Transaction {
 
     public void setAssignedTo(Account assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
     }
 }
