@@ -12,6 +12,7 @@ import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
 import sk.posam.fsa.moneymate.domain.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -64,7 +65,7 @@ class UserServiceTest {
     @Test
     public void UserService_FindById_ReturnsCorrectUser() {
         Long id = 1L;
-        when(userRepository.findById(id)).thenReturn(user);
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user));
         User foundUser = userService.findById(id);
         assertEquals(user, foundUser);
         verify(userRepository, times(1)).findById(id);
@@ -87,5 +88,4 @@ class UserServiceTest {
         assertEquals(users, foundUsers);
         verify(userRepository, times(1)).findAll();
     }
-
 }

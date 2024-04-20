@@ -3,6 +3,7 @@ package sk.posam.fsa.moneymate.domain.repository;
 import sk.posam.fsa.moneymate.domain.User;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * UserRepository is an interface that defines the contract for user-related database operations.
@@ -24,7 +25,7 @@ public interface UserRepository {
      * @param id The ID of the user to be found.
      * @return The User object if found in the database, null otherwise.
      */
-    User findById(Long id);
+    Optional<User> findById(Long id);
 
     /**
      * Finds a user in the database by their email.
@@ -35,4 +36,6 @@ public interface UserRepository {
     User findByEmail(String email);
 
     Collection<User> findAll();
+
+    void update(User userEntity);
 }

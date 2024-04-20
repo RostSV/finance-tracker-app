@@ -1,7 +1,9 @@
 package sk.posam.fsa.moneymate.domain.service;
 
 import sk.posam.fsa.moneymate.domain.User;
+import sk.posam.fsa.moneymate.domain.UserRole;
 import sk.posam.fsa.moneymate.domain.exceptions.InstanceAlreadyExistsException;
+import sk.posam.fsa.moneymate.domain.exceptions.InstanceNotFoundException;
 import sk.posam.fsa.moneymate.domain.repository.UserRepository;
 
 import java.util.List;
@@ -26,7 +28,8 @@ public class UserService implements UserFacade {
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new InstanceNotFoundException("User with id: " + id + " is not present."));
     }
 
     @Override
@@ -41,6 +44,33 @@ public class UserService implements UserFacade {
                 .toList();
     }
 
+    @Override
+    public void updateUser(User userEntity) {
 
-    //TODO Implement email validation
+        userRepository.findById(userEntity.getId())
+                .orElseThrow(() -> new InstanceNotFoundException("User with id: " + userEntity.getId() + " is not present."));
+
+        validateUser(userEntity);
+        userRepository.update(userEntity);
+    }
+
+    private void validateUser(User user) {
+        if (user.getName() == null)
+            throw new IllegalArgumentException("Name parameter for user cant be null");
+
+        if (user.getName().isEmpty())
+            throw new IllegalArgumentException("Name parameter for user cant be empty");
+
+        if (user.getEmail() == null)
+            throw new IllegalArgumentException("Email parameter for user cant be null");
+
+        //TODO maybe refactor
+        //will throw IllegalArgumentException if Role is not present
+        UserRole.valueOf(user.getRole().toString());
+    }
+
 }
+
+
+
+

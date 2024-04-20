@@ -35,4 +35,6 @@ public interface UserFacade {
     User findByEmail(String email);
 
     List<User> findAll();
+
+    void updateUser(User userEntity);
 }

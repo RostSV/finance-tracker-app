@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/moneymate
+    url: jdbc:postgresql://localhost:5432/fsa
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver

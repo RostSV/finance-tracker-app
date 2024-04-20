@@ -5,6 +5,7 @@ import sk.posam.fsa.moneymate.domain.User;
 import sk.posam.fsa.moneymate.domain.repository.UserRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class JpaUserRepositoryAdapter implements UserRepository {
@@ -21,8 +22,8 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public User findById(Long id) {
-        return userSpringDataRepository.findById(id).orElse(null);
+    public Optional<User> findById(Long id) {
+        return userSpringDataRepository.findById(id);
     }
 
     @Override
@@ -34,5 +35,10 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     @Override
     public Collection<User> findAll() {
         return userSpringDataRepository.findAll();
+    }
+
+    @Override
+    public void update(User userEntity) {
+        userSpringDataRepository.save(userEntity);
     }
 }

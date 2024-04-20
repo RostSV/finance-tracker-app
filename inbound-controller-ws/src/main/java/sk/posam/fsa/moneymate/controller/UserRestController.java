@@ -51,6 +51,7 @@ public class UserRestController implements UsersApi {
 
     @Override
     public ResponseEntity<Void> updateUser(UserDto userDto) {
-        return null;
+        userService.updateUser(userMapper.toUserEntity(userDto));
+        return ResponseEntity.ok().build();
     }
 }
