@@ -13,12 +13,17 @@ public interface AccountActionsFacade {
 
     //Accounts
     void createAccount(Account account);
+
     void updateAccount(Account account);
+
     void deleteAccount(Long id);
-    void updateAccountBalance(Long accountId, BigDecimal amount);
+
+    void updateAccountBalance(Account account, Transaction transaction);
 
     List<Account> findAccountsByUser(User user);
+
     List<Account> findAccountsByType(AccountType type);
+
     List<Account> findAccountsByCurrencyCode(String currencyCode);
 
     //Transactions
@@ -26,15 +31,13 @@ public interface AccountActionsFacade {
 
     void updateTransaction(Transaction transaction);
 
-    void deleteTransaction(Long id);
-
 
     List<Transaction> findTransactionsByAccount(Long accountId, Integer limitDays);
 
 
     List<Transaction> findTransactionsByCategory(Category category);
 
-    List<Transaction>  findTransactionsByUser(User user, Integer limitDays);
+    List<Transaction> findTransactionsByUser(User user, Integer limitDays);
 
     Account findAccountById(Long accountId);
 }

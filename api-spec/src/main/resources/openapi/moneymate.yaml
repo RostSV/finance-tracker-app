@@ -155,29 +155,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Transaction'
 
-  /accounts/transaction/{transactionId}:
-    delete:
-      tags:
-        - Transaction
-      summary: Delete transaction by ID
-      operationId: deleteTransactionById
-
-      parameters:
-        - name: transactionId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-            description: Numeric id of the transaction to delete
-      responses:
-        '204':
-          description: Transaction deleted successfully
-        '400':
-          description: Invalid input parameters
-        '404':
-          description: Transaction not found
-
   /accounts/{accountId}/transactions:
     get:
       tags:

@@ -16,6 +16,7 @@ import sk.posam.fsa.moneymate.security.CurrentUserDetailService;
 
 import java.util.Collections;
 import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1")
@@ -37,12 +38,8 @@ public class AccountActionsRestController implements AccountsApi {
 
     @Override
     public ResponseEntity<Void> addTransaction(Long accountId, TransactionDto transactionDto) {
-        accountActionsService.createTransaction(accountId,transactionMapper.toEntity(transactionDto));
+        accountActionsService.createTransaction(accountId, transactionMapper.toEntity(transactionDto));
         return ResponseEntity.ok().build();
-    }
-    @Override
-    public ResponseEntity<Void> deleteTransactionById(Long transactionId) {
-        return null;
     }
 
     @Override
@@ -63,6 +60,7 @@ public class AccountActionsRestController implements AccountsApi {
         accountActionsService.createAccount(account);
         return ResponseEntity.ok().build();
     }
+
     @Override
     public ResponseEntity<Void> deleteAccount(Long accountId) {
         accountActionsService.deleteAccount(accountId);

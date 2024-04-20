@@ -46,12 +46,11 @@ public class AccountActionsService implements AccountActionsFacade {
     @Override
     public void createAccount(Account account) {
 
-        if(accountRepository.findByName(account.getName()).isPresent()){
+        if (accountRepository.findByName(account.getName()).isPresent()) {
             throw new InstanceAlreadyExistsException("Account with name " + account.getName() + " already exists in the system");
         }
 
         validateAccount(account);
-
 
         accountRepository.create(account);
     }
@@ -77,14 +76,14 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
     @Override
-    public void updateAccountBalance(Long accountId, BigDecimal amount) {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new InstanceNotFoundException("Account with id " + accountId + " not found"));
+    public void updateAccountBalance(Account account, Transaction transaction) {
 
-        if(amount.compareTo(BigDecimal.ZERO) < 0)
+        if (transaction.getAmount().compareTo(BigDecimal.ZERO) < 0)
             throw new IllegalArgumentException("Amount cannot be negative");
 
-        account.setBalance(amount);
+        BigDecimal amount = transaction.getType() == TransactionType.INCOME ? transaction.getAmount() : transaction.getAmount().negate();
+
+        account.setBalance(account.getBalance().add(amount));
 
         accountRepository.update(account);
     }
@@ -121,7 +120,7 @@ public class AccountActionsService implements AccountActionsFacade {
         //Transaction created by Transaction factory
         Transaction _transaction = null;
 
-        if(transaction.getType() == TransactionType.INCOME){
+        if (transaction.getType() == TransactionType.INCOME) {
             _transaction = transactionFactory.createIncome(
                     transaction.getAmount(),
                     transaction.getDescription(),
@@ -130,7 +129,7 @@ public class AccountActionsService implements AccountActionsFacade {
                     account);
 
             //(else if) in case we will add more types of transactions in the future
-        } else if(transaction.getType() == TransactionType.EXPENSE){
+        } else if (transaction.getType() == TransactionType.EXPENSE) {
             _transaction = transactionFactory.createExpense(
                     transaction.getAmount(),
                     transaction.getDescription(),
@@ -140,10 +139,7 @@ public class AccountActionsService implements AccountActionsFacade {
 
         }
 
-        this.updateAccountBalance(accountId, account.getBalance()
-                .add(transaction.getType() == TransactionType.INCOME ? transaction.getAmount() : transaction.getAmount().negate()));
-
-
+        updateAccountBalance(account, Objects.requireNonNull(_transaction));
 
         transactionRepository.create(_transaction);
     }
@@ -154,15 +150,11 @@ public class AccountActionsService implements AccountActionsFacade {
 
     }
 
-    @Override
-    public void deleteTransaction(Long id) {
-
-    }
 
     @Override
     public List<Transaction> findTransactionsByAccount(Long accountId, Integer limitDays) {
 
-        if(limitDays == null || limitDays < 0)
+        if (limitDays == null || limitDays < 0)
             throw new IllegalArgumentException("Limit days cannot be null or negative");
 
         LocalDate startDate = LocalDate.now().minusDays(limitDays);
@@ -180,7 +172,7 @@ public class AccountActionsService implements AccountActionsFacade {
     @Override
     public List<Transaction> findTransactionsByUser(User user, Integer limitDays) {
 
-        if(limitDays == null || limitDays < 0)
+        if (limitDays == null || limitDays < 0)
             throw new IllegalArgumentException("Limit days cannot be null or negative");
 
         LocalDate startDate = LocalDate.now().minusDays(limitDays);
@@ -201,11 +193,11 @@ public class AccountActionsService implements AccountActionsFacade {
     private void validateAccount(Account account) {
         Objects.requireNonNull(account, "Account cannot be null");
 
-        if(account.getName().isEmpty()){
+        if (account.getName().isEmpty()) {
             throw new IllegalArgumentException("Name of account cannot be empty");
         }
 
-        if(account.getBalance() == null || account.getBalance().compareTo(BigDecimal.ZERO) < 0){
+        if (account.getBalance() == null || account.getBalance().compareTo(BigDecimal.ZERO) < 0) {
             account.setBalance(BigDecimal.ZERO);
         }
 
@@ -216,23 +208,23 @@ public class AccountActionsService implements AccountActionsFacade {
             throw new IllegalArgumentException("Type of account is not valid. Valid types are: " + Arrays.toString(AccountType.values()));
         }
 
-        if(account.getCurrency() == null){
+        if (account.getCurrency() == null) {
             throw new IllegalArgumentException("Currency of account cannot be null");
         }
 
-        if(account.getCurrency().getId() == null){
+        if (account.getCurrency().getId() == null) {
             throw new IllegalArgumentException("Currency of account cannot be null");
         }
 
-        if(account.getCurrency().getCode().isEmpty()){
+        if (account.getCurrency().getCode().isEmpty()) {
             throw new IllegalArgumentException("Currency of account cannot be empty");
         }
 
-        if(currencyRepository.findByCode(account.getCurrency().getCode()) == null){
+        if (currencyRepository.findByCode(account.getCurrency().getCode()) == null) {
             throw new IllegalArgumentException("Currency with code " + account.getCurrency().getCode() + " is not available in the system");
         }
 
-        if(account.getCreatedBy() == null){
+        if (account.getCreatedBy() == null) {
             throw new IllegalArgumentException("Creator of account cannot be null");
         }
     }
@@ -250,35 +242,33 @@ public class AccountActionsService implements AccountActionsFacade {
             throw new IllegalArgumentException("Category of transaction cannot be null");
         }
 
-        if(categoryRepository.findById(transaction.getCategory().getId()).isEmpty()) {
+        if (categoryRepository.findById(transaction.getCategory().getId()).isEmpty()) {
             throw new IllegalArgumentException("Category with name " + transaction.getCategory().getName() + " is not available in the system");
         }
 
 
-            if(transaction.getType() != TransactionType.EXPENSE && transaction.getType() != TransactionType.INCOME){
-                Logger logger = Logger.getLogger(AccountActionsService.class.getName());
-                logger.info(transaction.getType().name());
-                throw new IllegalArgumentException("Type of transaction is not valid. Valid types are: " + Arrays.toString(TransactionType.values()));
-            }
+        if (transaction.getType() != TransactionType.EXPENSE && transaction.getType() != TransactionType.INCOME) {
+            Logger logger = Logger.getLogger(AccountActionsService.class.getName());
+            logger.info(transaction.getType().name());
+            throw new IllegalArgumentException("Type of transaction is not valid. Valid types are: " + Arrays.toString(TransactionType.values()));
+        }
 
 
-
-        if(currencyRepository.findById(transaction.getCurrency().getId()).isEmpty()){
+        if (currencyRepository.findById(transaction.getCurrency().getId()).isEmpty()) {
             throw new IllegalArgumentException("Currency with id " + transaction.getCurrency().getId() + " is not available in the system");
         }
 
-        if(currencyRepository.findByCode(transaction.getCurrency().getCode()) == null){
+        if (currencyRepository.findByCode(transaction.getCurrency().getCode()) == null) {
             throw new IllegalArgumentException("Currency with code " + transaction.getCurrency().getCode() + " is not available in the system");
         }
 
-        if(transaction.getAssignedTo() == null){
+        if (transaction.getAssignedTo() == null) {
             throw new IllegalArgumentException("Account assigned to transaction cannot be null");
         }
 
-        if(accountRepository.findById(transaction.getAssignedTo().getId()).isEmpty()){
+        if (accountRepository.findById(transaction.getAssignedTo().getId()).isEmpty()) {
             throw new IllegalArgumentException("Account with id " + transaction.getAssignedTo().getId() + " is not available in the system");
         }
-
 
 
     }

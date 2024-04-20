@@ -5,6 +5,7 @@ import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * TransactionRepository is an interface that defines the contract for transaction-related database operations.
@@ -42,4 +43,6 @@ public interface TransactionRepository {
     Collection<Transaction> findBAllByCategory(Category category);
 
     Collection<Transaction> findByUser(Long userId, LocalDate startDate);
+
+    Optional<Transaction> findById(Long id);
 }

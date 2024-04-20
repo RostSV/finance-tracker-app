@@ -1,14 +1,13 @@
 package sk.posam.fsa.moneymate.jpa.transaction;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.domain.Pageable;
 import sk.posam.fsa.moneymate.domain.Category;
 import sk.posam.fsa.moneymate.domain.repository.TransactionRepository;
 import sk.posam.fsa.moneymate.domain.transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class JpaTransactionRepositoryAdapter implements TransactionRepository {
@@ -33,6 +32,7 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
     public void delete(Long id) {
         transactionSpringDataRepository.deleteById(id);
     }
+
     @Override
     public Collection<Transaction> findBAllByCategory(Category category) {
         return transactionSpringDataRepository.findAllByCategory(category);
@@ -46,6 +46,11 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
     @Override
     public Collection<Transaction> findByUser(Long userId, LocalDate startDate) {
         return transactionSpringDataRepository.findAllByUser(userId, startDate);
+    }
+
+    @Override
+    public Optional<Transaction> findById(Long id) {
+        return transactionSpringDataRepository.findById(id);
     }
 
 }
