@@ -48,4 +48,9 @@ public class UserRestController implements UsersApi {
                         .map(userMapper::toUserDto)
                         .toList());
     }
+
+    @Override
+    public ResponseEntity<Void> updateUser(UserDto userDto) {
+        return null;
+    }
 }

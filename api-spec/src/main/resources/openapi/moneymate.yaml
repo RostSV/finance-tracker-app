@@ -388,6 +388,25 @@ paths:
         '403':
           description: Request denied. Lack of permission.
 
+    put:
+      tags:
+        - User
+      summary: Update user
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User updated successfully.
+        '400':
+          description: Invalid input parameters.
+        '404':
+          description: User not found
+
   /currencies:
     post:
       tags:
@@ -426,6 +445,29 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Currency'
+
+    put:
+      tags:
+        - Currency
+      summary: Update currency
+      description: Operation of updating currency available only for ADMIN
+      operationId: updateCurrency
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Currency'
+      responses:
+        '201':
+          description: Currency updated successfully.
+        '400':
+          description: Invalid input parameters.
+        '403':
+          description: Request denied. Lack of permission.
+        '404':
+          description: Currency not found
 
 
 

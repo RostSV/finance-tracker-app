@@ -57,4 +57,9 @@ public class CurrencyRestController implements CurrenciesApi {
                         .toList())
                 : ResponseEntity.ok().body(Collections.emptyList());
     }
+
+    @Override
+    public ResponseEntity<Void> updateCurrency(CurrencyDto currencyDto) {
+        return null;
+    }
 }
