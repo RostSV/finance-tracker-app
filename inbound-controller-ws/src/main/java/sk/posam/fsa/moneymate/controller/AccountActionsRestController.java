@@ -41,7 +41,7 @@ public class AccountActionsRestController implements AccountsApi {
         return ResponseEntity.ok().build();
     }
     @Override
-    public ResponseEntity<Void> deleteTransactionById(Long accountId, Long transactionId) {
+    public ResponseEntity<Void> deleteTransactionById(Long transactionId) {
         return null;
     }
 
