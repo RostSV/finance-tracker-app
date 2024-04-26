@@ -1,31 +1,27 @@
 version: '3.1'
 
 services:
-    db:
-        image: postgres
-        restart: always
-        ports:
-            - "5432:5432"
-        environment:
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: admin
-            POSTGRES_DB: moneymate
-        volumes:
-            - moneymate_db_disk:/var/lib/postgresql/data
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: fsa
+    volumes:
+      - moneymate_db_disk:/var/lib/postgresql/data
 
-    keycloak:
-#        image: quay.io/keycloak/keycloak:22.0.5
-#        command:
-#            - start-dev
-        build:
-            context: .
-
-        environment:
-            KEYCLOAK_ADMIN: admin
-            KEYCLOAK_ADMIN_PASSWORD: admin
-        ports:
-            - "8081:8080"
+  keycloak:
+    build:
+      context: .
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8081:8080"
 
 volumes:
-    moneymate_db_disk:
-        driver: local
+  moneymate_db_disk:
+    driver: local
