@@ -48,6 +48,7 @@ public class AccountActionsRestController implements AccountsApi {
         return ResponseEntity.ok().body(accountMapper.toAccountDto(account));
     }
 
+    //TODO maybe remove accountId because we can find transaction without it.
     @Override
     public ResponseEntity<Void> updateTransaction(Long accountId, TransactionDto transactionDto) {
         return null;

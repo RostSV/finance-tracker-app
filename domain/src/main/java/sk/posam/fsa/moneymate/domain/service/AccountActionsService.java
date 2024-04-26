@@ -42,7 +42,7 @@ public class AccountActionsService implements AccountActionsFacade {
         this.transactionFactory = transactionFactory;
     }
 
-
+    //----------------Account operations-------------------//
     @Override
     public void createAccount(Account account) {
 
@@ -109,6 +109,8 @@ public class AccountActionsService implements AccountActionsFacade {
                 .toList();
     }
 
+
+    //----------------Transactions operations-------------------//
     @Override
     public void createTransaction(Long accountId, Transaction transaction) {
         Account account = accountRepository.findById(accountId)
@@ -145,11 +147,11 @@ public class AccountActionsService implements AccountActionsFacade {
     }
 
 
+    //TODO implement
     @Override
     public void updateTransaction(Transaction transaction) {
 
     }
-
 
     @Override
     public List<Transaction> findTransactionsByAccount(Long accountId, Integer limitDays) {
