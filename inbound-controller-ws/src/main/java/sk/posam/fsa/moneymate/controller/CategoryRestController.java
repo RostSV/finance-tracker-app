@@ -1,7 +1,6 @@
 package sk.posam.fsa.moneymate.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.moneymate.domain.Category;
@@ -17,7 +16,6 @@ import java.util.List;
 //RestController for Category version 1.0
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "*")
 public class CategoryRestController implements CategoriesApi {
 
     private final CurrentUserDetailService currentUserDetailService;
@@ -44,7 +42,7 @@ public class CategoryRestController implements CategoriesApi {
     public ResponseEntity<List<CategoryDto>> listCategories() {
         List<Category> allCategories = categoryService
                 .findAllByUser(currentUserDetailService.getFullCurrentUser());
-        
+
         return allCategories != null ? ResponseEntity.ok()
                 .body(allCategories.stream()
                         .map(categoryMapper::toDto)

@@ -2,7 +2,6 @@ package sk.posam.fsa.moneymate.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.moneymate.domain.Currency;
 import sk.posam.fsa.moneymate.domain.service.CurrencyFacade;
@@ -17,7 +16,6 @@ import java.util.List;
 //RestController for Currency version 1.0
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/v1")
 public class CurrencyRestController implements CurrenciesApi {
 
     private final CurrencyFacade currencyService;
