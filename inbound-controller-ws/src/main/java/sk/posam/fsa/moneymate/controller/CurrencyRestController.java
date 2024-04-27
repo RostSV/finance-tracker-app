@@ -1,7 +1,6 @@
 package sk.posam.fsa.moneymate.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.posam.fsa.moneymate.domain.Currency;
@@ -15,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 //RestController for Currency version 1.0
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1")
 public class CurrencyRestController implements CurrenciesApi {
@@ -36,6 +34,10 @@ public class CurrencyRestController implements CurrenciesApi {
     @Override
     public ResponseEntity<Void> createCurrency(CurrencyDto currencyDto) {
 
+        if (!currentUserDetailService.isAdmin()) {
+            return ResponseEntity.status(403).build();
+        }
+        
         currencyService.create(currencyMapper.toEntity(currencyDto));
 
         return ResponseEntity.ok().build();
@@ -45,9 +47,6 @@ public class CurrencyRestController implements CurrenciesApi {
     @Override
     public ResponseEntity<List<CurrencyDto>> listCurrencies() {
 
-        if (!currentUserDetailService.isAdmin()) {
-            return ResponseEntity.status(403).build();
-        }
 
         List<Currency> allCurrencies = currencyService.findAll();
 

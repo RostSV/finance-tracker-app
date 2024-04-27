@@ -13,12 +13,12 @@ import sk.posam.fsa.moneymate.domain.transaction.TransactionFactory;
 public class AccountActionsBeanConfig {
 
     @Bean
-    public AccountActionsService accountActionsService(TransactionRepository transactionRepository,
-                                                       AccountRepository accountRepository,
-                                                       CurrencyRepository currencyRepository,
-                                                       CategoryRepository categoryRepository,
-                                                       TransactionFactory transactionFactory) {
-
+    public AccountActionsService accountActionsService(
+            TransactionRepository transactionRepository,
+            AccountRepository accountRepository,
+            CurrencyRepository currencyRepository,
+            CategoryRepository categoryRepository,
+            TransactionFactory transactionFactory) {
         return new AccountActionsService(
                 transactionRepository,
                 accountRepository,
