@@ -28,6 +28,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Run Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
         stage('Clean workspace') {
             steps {
                 cleanWs()
