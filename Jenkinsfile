@@ -12,6 +12,15 @@ pipeline {
         IMAGE_NAME = 'fsa-backend'
     }
     stages {
+
+
+        stage('Run Tests') {
+                steps {
+                    sh 'mvn test'
+                }
+            }
+
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -29,11 +38,7 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+
 
         stage('Clean workspace') {
             steps {
