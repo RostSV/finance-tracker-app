@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.6.3-openjdk-11'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+    agent any
     options {
         disableConcurrentBuilds()
     }
